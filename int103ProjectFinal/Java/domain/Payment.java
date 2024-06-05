@@ -3,6 +3,7 @@ package domain;
 import exception.InvalidPaymentFormatException;
 
 import java.io.Serializable;
+import domain.*;
 
 public class Payment implements Serializable {
     private final String paymentId;
