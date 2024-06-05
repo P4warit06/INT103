@@ -16,12 +16,14 @@ public class Reservation implements Serializable {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
 
-    public Reservation(String reservationID, Person person, Room room, Room status) {
-        if (reservationID == null || reservationID.isBlank() || person == null || room == null || status == null) throw new InvalidReservationFormatException();
+    public Reservation(String reservationID, Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate) {
+        if (reservationID == null || reservationID.isBlank() || person == null || room == null || status == null || !status.isAvailable()) throw new InvalidReservationFormatException();
         this.reservationID = reservationID;
         this.person = person;
         this.room = room;
-        this.status = status;
+        status.setAvailable(false);
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
     }
 
     public String getReservationID() {
@@ -46,13 +48,8 @@ public class Reservation implements Serializable {
         this.room = room;
     }
 
-    public Room getStatus() {
-        return status;
-    }
-
-    public void setStatus(Room status) {
-        if (status == null) throw new InvalidRoomFormatException();
-        this.status = status;
+    public boolean getStatus() {
+        return status.isAvailable();
     }
 
     public LocalDate getCheckInDate() {
@@ -60,7 +57,6 @@ public class Reservation implements Serializable {
     }
 
     public void setCheckInDate(LocalDate checkInDate) {
-        if (status == null) throw new InvalidReservationFormatException();
         this.checkInDate = checkInDate;
     }
 
@@ -69,7 +65,6 @@ public class Reservation implements Serializable {
     }
 
     public void setCheckOutDate(LocalDate checkOutDate) {
-        if (status == null) throw new InvalidReservationFormatException();
         this.checkOutDate = checkOutDate;
     }
 

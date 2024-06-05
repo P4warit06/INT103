@@ -24,14 +24,14 @@ public class Person implements Comparable<Person>, Serializable {
         this.password = newPassword;
     }
 
-    public String reservation(Room room) {
-        if (room == null) throw new InvalidRoomFormatException();
-        if (room.isAvailable()) {
-            room.setAvailable(false);
-            return "You successfully reserved.";
-        }
-        return "Your reservation was unsuccessful.";
-    }
+    //    public String reservation(Room room) {
+//        if (room == null) throw new InvalidRoomFormatException();
+//        if (room.isAvailable()) {
+//            room.setAvailable(false);
+//            return "You successfully reserved.";
+//        }
+//        return "Your reservation was unsuccessful.";
+//    } This method is service.
 
     public String getPersonId() {
         return personId;
