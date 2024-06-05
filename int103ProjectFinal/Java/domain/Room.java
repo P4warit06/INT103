@@ -2,7 +2,9 @@ package domain;
 
 import exception.InvalidRoomFormatException;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Comparable<Room>, Serializable {
     private final String roomNumber;
     private String type;
     private String capacity;
@@ -55,7 +57,7 @@ public class Room {
         return available;
     }
 
-    public void setAvailable(boolean available) {
+    public void reAvailable(boolean available) {
         this.available = available;
     }
 
@@ -63,8 +65,16 @@ public class Room {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void rePrice(double price) {
         if (price < 0.0) throw new InvalidRoomFormatException();
+        this.price = price;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -72,4 +82,7 @@ public class Room {
     public String toString() {
         return String.format("Room: (RoomNumber:%s, Type:%s, Capacity:%s, Amenities:%s, Price:%.2f)", roomNumber, type, capacity, amenities, price);
     }
+
+    @Override
+    public int compareTo(Room room) {return roomNumber.compareTo(room.roomNumber);}
 }
