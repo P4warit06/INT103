@@ -7,6 +7,7 @@ import org.w3c.dom.css.CSSStyleRule;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import domain.*;
 
 public class Reservation implements Serializable {
     private final String reservationID;
