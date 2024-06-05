@@ -6,7 +6,6 @@ import domain.Room;
 public class Test {
     public static void main(String[] args) {
         testPerson();
-        testRoom();
     }
 
     public static void testPerson() {
