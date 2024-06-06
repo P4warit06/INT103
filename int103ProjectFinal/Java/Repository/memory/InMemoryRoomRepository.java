@@ -7,7 +7,7 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 public class InMemoryRoomRepository implements RoomRepository {
-    private final Map<String, Room> repository = new TreeMap();
+    private final Map<String, Room> repository = new TreeMap<>();
     public InMemoryRoomRepository() {
     }
     public Room Retrieve(String roomNumber) {
