@@ -1,4 +1,22 @@
 package Repository;
 
-public interface ReservationRepository {
+import domain.Payment;
+import domain.Person;
+import domain.Reservation;
+import domain.Room;
+
+import java.time.LocalDate;
+
+public interface ReservationRepository  {
+
+    Reservation createReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate);
+
+    Reservation createReservation(Reservation reservation);
+    Reservation retrieveReservation(String number);
+    boolean updateReservation(Reservation reservation);
+    boolean deleteReservation(Reservation reservation);
 }
+
+
+
+
