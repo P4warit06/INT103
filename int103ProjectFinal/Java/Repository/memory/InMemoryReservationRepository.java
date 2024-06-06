@@ -7,6 +7,7 @@ import domain.Room;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 public class InMemoryReservationRepository implements ReservationRepository {
     private long nextReservationId =1;
@@ -26,12 +27,8 @@ public class InMemoryReservationRepository implements ReservationRepository {
     }
 
     @Override
-    public Reservation createReservation(Reservation reservation) {
-        return null;
-    }
-
-    @Override
     public Reservation retrieveReservation(String number) {
+        if (number==null||number.isBlank())return null;
         return repo.get(number);
     }
 
@@ -47,6 +44,9 @@ public class InMemoryReservationRepository implements ReservationRepository {
         if (reservation== null) return false;
         return repo.remove(reservation.getReservationID(),reservation);
     }
+
+    @Override
+    public Stream<Reservation> stream() { return repo.values().stream(); }
 
 }
 

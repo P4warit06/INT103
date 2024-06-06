@@ -6,10 +6,12 @@ import domain.Reservation;
 import domain.Room;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 
 public interface PaymentRepository {
 
-    Payment createPayment(Payment payment, Reservation reservation);
+
+    Payment createPayment(Reservation reservation, double amount, String method, String status);
 
     Payment retrievePayment(String number);
 
@@ -18,4 +20,5 @@ public interface PaymentRepository {
     boolean deletePayment(Payment payment);
 
 
+    Stream<Payment> stream();
 }

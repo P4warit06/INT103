@@ -5,6 +5,7 @@ import domain.Payment;
 import domain.Reservation;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 public class InMemoryPaymentRepository implements PaymentRepository {
     private long nextPaymentId =1;
@@ -13,18 +14,18 @@ public class InMemoryPaymentRepository implements PaymentRepository {
 
 
     @Override
-    public Payment createPayment(Payment payment, Reservation reservation) {
-        if (payment == null) return null;
+    public Payment createPayment(Reservation reservation,double amount, String method, String status) {
+        if (reservation == null || amount <0 || method == null || status == null||method.isBlank()||status.isBlank()) return null;
         var number = String.format("A%011d", nextPaymentId);
         if (repo.containsKey(number)) return null;
-        var Payment = new Payment(payment.getPaymentId(),reservation, payment.getAmount(),payment.getMethod(),payment.getStatus());
-        repo.put(number, payment);
+       Payment payment = new Payment(number,reservation,amount,method,status);
         ++nextPaymentId;
         return payment;
     }
 
     @Override
     public Payment retrievePayment(String number) {
+        if (number==null||number.isBlank())  return null;
         return repo.get(number);
     }
 
@@ -41,4 +42,6 @@ public class InMemoryPaymentRepository implements PaymentRepository {
         return repo.remove(payment.getPaymentId(),payment);
     }
 
+    @Override
+    public Stream<Payment> stream() { return repo.values().stream(); }
 }
