@@ -1,41 +1,52 @@
 package Repository.memory;
 import Repository.PersonRepository;
 import domain.Person;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Stream;
 
 public class InMemoryPersonRepository  implements PersonRepository {
-
-    private long NextPersonId = 1L ;
-    private final Map<String,Person> repository = new HashMap<>();
+    private long NextPersonId = 1L;
+    private final Map<String, Person> repository  ;
 
     public InMemoryPersonRepository() {
+        repository = new TreeMap<>();
     }
-
-    public Person Create(String name) {
-        String id = String.format("C%010d", this.NextPersonId);
-        if (this.repository.containsKey(id)) {
+@Override
+    public Person createPerson(String personId, String name, String email, String password) {
+        if (personId == null || name == null || email == null || password == null)
             return null;
-        } else {
-            Person person = new Person(id, name);
-            this.repository.put(id, Person);
-            ++this.NextPersonId;
-            return person;
-        }
+        String id = String.format("C%010d", NextPersonId);
+        if (repository.containsKey(id))
+            return null;
+        Person person = new Person(id, name, email, password) ;
+        repository.put(id, person) ;
+        ++NextPersonId;
+        return person;
     }
 
-    public boolean update(Person customer) {
-        if (customer == null) {
-            return false;
-        } else {
-            this.repo.replace(customer.getId(), customer);
-            return true;
-        }
+    @Override
+    public Person retrievePerson(String name ) {
+        if (name == null || name.isBlank()) return null;
+        return repository.get(name);
+    }
+    @Override
+    public boolean updatePerson(Person person) {
+        if (person == null) return false;
+        repository.replace(person.getPersonId(), person);
+        return true;
     }
 
-    public Customer retrieve(String id) {
-        return id == null ? null : (Customer)this.repo.get(id);
+    @Override
+    public boolean deletePerson(Person person) {
+        if (person  == null) return false;
+        return repository.remove(person.getPersonId() , person) ;
     }
+
+    @Override
+    public Stream<Person> stream() {
+        return repository.values().stream();
+    }
+
 
 }

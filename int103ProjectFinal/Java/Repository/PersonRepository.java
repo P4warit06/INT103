@@ -1,13 +1,16 @@
 package Repository;
 
 import domain.Person;
+import domain.Room;
 
 import java.util.stream.Stream;
 
 public interface PersonRepository {
-    Person Retrieve(String var2);
-    Person Create(String var1, String var2 ,String var3 , String var4 );
-    boolean Update(Person var2);
+    Person createPerson(String personId , String name, String email , String password  );
+    Person retrievePerson(String name);
+    boolean updatePerson(Person person);
+    boolean deletePerson (Person person) ;
     Stream<Person> stream();
+
 }
 

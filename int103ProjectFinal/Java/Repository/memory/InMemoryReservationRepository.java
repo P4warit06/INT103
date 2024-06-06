@@ -14,8 +14,6 @@ public class InMemoryReservationRepository implements ReservationRepository {
     private final Map<String,Reservation> repo;
 
     public InMemoryReservationRepository() { repo = new TreeMap<>(); }
-
-
     @Override
     public Reservation createReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate) {
         if (person == null || room == null || status == null || checkInDate == null || checkOutDate == null) return null;

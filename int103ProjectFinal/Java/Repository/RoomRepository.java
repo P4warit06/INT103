@@ -5,8 +5,9 @@ import domain.Room;
 import java.util.stream.Stream;
 
 public interface RoomRepository {
-    Room Retrieve(String var1);
-    boolean Update(Room var1);
-    boolean Delete(Room var1);
+    Room createRoom(String roomNumber , String type,String capacity, String amenities , double price);
+    Room retrieveRoom(String var1);
+    boolean updateRoom(Room room);
+    boolean deleteRoom(Room room);
     Stream<Room> stream();
 }
