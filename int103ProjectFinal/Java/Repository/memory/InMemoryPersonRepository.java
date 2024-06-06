@@ -4,42 +4,42 @@ import domain.Person;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class InMemoryPersonRepository  implements PersonRepository {
 
-    private long NextPersonId = 1L ;
+    private static long NextPersonId = 1L ;
     private final Map<String,Person> repository = new HashMap<>();
 
     public InMemoryPersonRepository() {
     }
 
-    public Person Create(String name) {
-        String id = String.format("C%010d", this.NextPersonId);
-        if (this.repository.containsKey(id)) {
+    public Person Create(String id , String name , String email , String password ) {
+        id = String.format("C%010d", NextPersonId);
+        if (this.repository.containsKey(id) ){
             return null;
         } else {
-            Person person = new Person(id, name);
-            this.repository.put(id, Person);
-            ++this.NextPersonId;
+            Person person = new Person(id, name,email,password);
+            this.repository.put(id, person);
+            ++NextPersonId;
             return person;
         }
     }
 
-    public boolean update(Person customer) {
+    public boolean Update(Person customer) {
         if (customer == null) {
             return false;
         } else {
-            this.repo.replace(customer.getId(), customer);
+            this.repository.replace(customer.getPersonId(), customer);
             return true;
         }
     }
-
-    public Customer retrieve(String id) {
-        return id == null ? null : (Customer)this.repo.get(id);
+    public Person Retrieve(String id) {
+        return id == null ? null : (Person) this.repository.get(id);
     }
-
-
-
+    public Stream<Person> stream() {
+        return this.repository.values().stream();
+    }
 
 
 }
