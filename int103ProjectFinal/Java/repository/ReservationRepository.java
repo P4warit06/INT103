@@ -1,6 +1,5 @@
-package Repository;
+package repository;
 
-import domain.Payment;
 import domain.Person;
 import domain.Reservation;
 import domain.Room;

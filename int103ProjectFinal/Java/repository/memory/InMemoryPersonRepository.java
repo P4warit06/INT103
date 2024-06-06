@@ -1,5 +1,5 @@
-package Repository.memory;
-import Repository.PersonRepository;
+package repository.memory;
+import repository.PersonRepository;
 import domain.Person;
 import java.util.Map;
 import java.util.TreeMap;

@@ -1,6 +1,6 @@
-package Repository.memory;
+package repository.memory;
 
-import Repository.PaymentRepository;
+import repository.PaymentRepository;
 import domain.Payment;
 import domain.Reservation;
 import java.util.Map;
