@@ -19,7 +19,8 @@ public class InMemoryPaymentRepository implements PaymentRepository {
         var number = String.format("A%011d", nextPaymentId);
         if (repo.containsKey(number)) return null;
        Payment payment = new Payment(number,reservation,amount,method,status);
-        ++nextPaymentId;
+        repo.put(number,payment);
+         ++nextPaymentId;
         return payment;
     }
 

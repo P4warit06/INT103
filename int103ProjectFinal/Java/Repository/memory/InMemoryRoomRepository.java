@@ -39,7 +39,7 @@ public class InMemoryRoomRepository implements RoomRepository {
     @Override
     public boolean updateRoom(Room room) {
         if (room == null)  return false ;
-        repository.replace(room.getCapacity(), room);
+        repository.replace(room.getRoomNumber(), room);
         return false;
     }
 

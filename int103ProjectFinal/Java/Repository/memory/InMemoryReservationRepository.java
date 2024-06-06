@@ -20,6 +20,7 @@ public class InMemoryReservationRepository implements ReservationRepository {
         String number = String.format("A%011d", nextReservationId);
         if (repo.containsKey(number)) return null;
         Reservation reservation = new Reservation(number,person,room,status,checkInDate,checkOutDate);
+        repo.put(number,reservation);
         ++nextReservationId;
         return reservation;
     }

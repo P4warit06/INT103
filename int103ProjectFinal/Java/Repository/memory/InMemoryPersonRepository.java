@@ -13,8 +13,8 @@ public class InMemoryPersonRepository  implements PersonRepository {
         repository = new TreeMap<>();
     }
 @Override
-    public Person createPerson(String personId, String name, String email, String password) {
-        if (personId == null || name == null || email == null || password == null)
+    public Person createPerson( String name, String email, String password) {
+        if (name == null || email == null || password == null||name.isBlank()||email.isBlank()||password.isBlank())
             return null;
         String id = String.format("C%010d", NextPersonId);
         if (repository.containsKey(id))
