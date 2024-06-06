@@ -16,6 +16,7 @@ public class Test {
     }
 
     public static void testPerson() {
+        System.out.println("kuh");
         System.out.println("### Test Person ###");
         //Create Room
         Room r1 = new Room("1", "airConditional", "2 people", "not have", 3500.00);
