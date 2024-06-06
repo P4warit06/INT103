@@ -86,3 +86,4 @@ public class Room implements Comparable<Room>, Serializable {
     @Override
     public int compareTo(Room room) {return roomNumber.compareTo(room.roomNumber);}
 }
+
