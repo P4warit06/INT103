@@ -1,10 +1,7 @@
 package domain;
-
 import exception.InvalidPaymentFormatException;
-
 import java.io.Serializable;
 import domain.*;
-
 public class Payment implements Serializable {
     private final String paymentId;
     private Reservation reservation;
@@ -19,43 +16,33 @@ public class Payment implements Serializable {
         this.amount = amount;
         this.method = method;
     }
-
     public String getPaymentId() {
         return paymentId;
     }
-
     public Reservation getReservation() {
         return reservation;
     }
-
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
     }
-
     public double getAmount() {
         return amount;
     }
-
     public void setAmount(double amount) {
         this.amount = amount;
     }
-
     public String getMethod() {
         return method;
     }
-
     public void setMethod(String method) {
         this.method = method;
     }
-
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
-
     @Override
     public String toString() {
         return String.format("Payment: (paymentId: %s, reservation: %s, amount: %s, method: %s, status: %s)", paymentId, reservation, amount, method, status);

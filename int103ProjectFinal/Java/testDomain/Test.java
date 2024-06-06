@@ -18,11 +18,11 @@ public class Test {
     public static void testPerson() {
         System.out.println("### Test Person ###");
         //Create Room
-        Room r1 = new Room("1", "airConditional", "2 people", "not have", 3500.00);
+        Room r1 = new Room("1", "airConditional", "2 people", "don't have", 3500.00);
         Room r2 = new Room("2", "airConditional", "2 people", "have", 4500.00);
         //Create Person
         Person p1 = new Person("1", "Ohm", "ohm.chonburi@mail.kmutt.ac.th", "1150");
-        Person p2 = new Person("2", "Vee", "vee.minburi@mail.kmutt.ac.th", "191");
+        Person p2 = new Person("2", "wee", "vee.minburi@mail.kmutt.ac.th", "191");
         Person p3 = new Person("3", "Smark", "smark.Sakhon@mail.kmutt.ac.th", "monkey");
         Person p4 = new Person("4", "Ice", "ice.chonburi@mail.kmutt.ac.th", "RTX3090");
         Person p5 = new Person("5", "Smill", "smill.Sakhon@mail.kmutt.ac.th", "smill.sakhon");

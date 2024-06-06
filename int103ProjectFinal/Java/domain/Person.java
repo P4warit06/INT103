@@ -2,9 +2,7 @@ package domain;
 
 import exception.InvalidPersonFormatException;
 import exception.InvalidRoomFormatException;
-
 import java.io.Serializable;
-
 public class Person implements Comparable<Person>, Serializable {
     private final String personId;
     private String name;
@@ -18,12 +16,10 @@ public class Person implements Comparable<Person>, Serializable {
         this.email = email;
         this.password = password;
     }
-
     public void rePassword(String email, String newPassword) {
         if (email == null || email.isBlank() || !email.equals(this.email) || newPassword == null || newPassword.isBlank()) throw new InvalidPersonFormatException();
         this.password = newPassword;
     }
-
     //    public String reservation(Room room) {
 //        if (room == null) throw new InvalidRoomFormatException();
 //        if (room.isAvailable()) {
@@ -32,38 +28,30 @@ public class Person implements Comparable<Person>, Serializable {
 //        }
 //        return "Your reservation was unsuccessful.";
 //    } This method is service.
-
     public String getPersonId() {
         return personId;
     }
-
     public String getName() {
         return name;
     }
-
     public void reName(String name) {
         if (name == null || name.isBlank()) throw new InvalidPersonFormatException();
         this.name = name;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void reEmail(String email) {
         if (email == null || email.isBlank()) throw new InvalidPersonFormatException();
         this.email = email;
     }
-
     public String getPassword() {
         return password;
     }
-
     @Override
     public String toString() {
         return String.format("Person: (PersonId: %s, Name: %s, Email: %s, Password: %s)", personId, name, email, password);
     }
-
     @Override
     public int compareTo(Person person) {return personId.compareTo(person.personId);}
 }
