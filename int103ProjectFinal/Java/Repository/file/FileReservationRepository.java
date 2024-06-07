@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 public class FileReservationRepository implements ReservationRepository {
     private String filename = "reservation.dat";
-    private long nextReservationId;
+    private long nextReservationId = 0;
     private Map<String, Reservation> repo;
 
     public FileReservationRepository() {
@@ -43,7 +43,7 @@ public class FileReservationRepository implements ReservationRepository {
     @Override
     public Reservation createReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate) {
         if (person == null || room == null || status == null || checkInDate == null || checkOutDate == null) return null;
-        String reservationId = "ReservationId: " + ++nextReservationId;
+        String reservationId = "ReservationId: " + nextReservationId++;
         if (repo.containsKey(reservationId)) return null;
         Reservation reservation = new Reservation(reservationId, person, room, status, checkInDate, checkOutDate);
         repo.put(reservationId, reservation);

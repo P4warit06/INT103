@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public class FilePaymentRepository implements PaymentRepository {
     private String filename = "payment.dat";
-    private long nextPaymentId;
+    private long nextPaymentId = 0;
     private Map<String, Payment> repo;
 
     public FilePaymentRepository() {
@@ -41,7 +41,7 @@ public class FilePaymentRepository implements PaymentRepository {
     @Override
     public Payment createPayment(Reservation reservation, double amount, String method, String status) {
         if (reservation == null || amount <= 0.0 || method == null || method.isBlank() || status == null || status.isBlank()) return null;
-        String paymentId = "PaymentId: " + ++nextPaymentId;
+        String paymentId = "PaymentId: " + nextPaymentId++;
         if (repo.containsKey(paymentId)) return null;
         Payment payment = new Payment(paymentId, reservation, amount, method, status);
         repo.put(paymentId, payment);

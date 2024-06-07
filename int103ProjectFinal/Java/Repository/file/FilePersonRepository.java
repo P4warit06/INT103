@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class FilePersonRepository implements PersonRepository {
     private String filename = "person.dat";
-    private long nextPersonId;
+    private long nextPersonId = 0;
     private Map<String, Person> repo;
 
     public FilePersonRepository() {
@@ -37,7 +37,7 @@ public class FilePersonRepository implements PersonRepository {
     @Override
     public Person createPerson(String name, String email, String password) {
         if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank()) return null;
-        String personId = "PersonId: " + ++nextPersonId;
+        String personId = "PersonId: " + nextPersonId++;
         if (repo.containsKey(personId)) return null;
         Person person = new Person(personId, name, email, password);
         repo.put(personId, person);
