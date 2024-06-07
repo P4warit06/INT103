@@ -66,6 +66,8 @@ public class FilePersonRepository implements PersonRepository {
 
     @Override
     public Stream<Person> stream() {
-        return Stream.empty();
+        return repo.values()
+                .stream()
+                .filter(Objects::nonNull);
     }
 }
