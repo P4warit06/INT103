@@ -99,20 +99,10 @@ public class FilePersonRepository implements PersonRepository {
     @Override
     public Stream<Person> stream() {
         if (repo == null) throw new UnsupportedOperationException();
-        try(FileOutputStream fo = new FileOutputStream(filename);
-            BufferedOutputStream bo = new BufferedOutputStream(fo);
-            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
-            oo.writeObject(repo.values().stream());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         try(FileInputStream fi = new FileInputStream(filename);
             BufferedInputStream bi = new BufferedInputStream(fi);
             ObjectInputStream oo = new ObjectInputStream(bi)) {
-            int i;
-            while ((i = oo.read()) != 1) {
-                System.out.println("Output: " + i);
-            }
+            repo.values().parallelStream().forEach(System.out::println);
         } catch (Exception e) {
             e.printStackTrace();
         }
