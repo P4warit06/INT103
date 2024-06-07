@@ -2,6 +2,8 @@ package repository.memory;
 
 import repository.RoomRepository;
 import domain.Room;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Stream;
@@ -9,13 +11,11 @@ import java.util.stream.Stream;
 public class InMemoryRoomRepository implements RoomRepository {
     private long NextRoomId = 1 ;
     private final Map<String, Room> repository ;
-    public InMemoryRoomRepository() {
-        repository = new TreeMap<>();
-    }
+    public InMemoryRoomRepository() {repository = new TreeMap<>();}
 
     @Override
-    public Room createRoom(String roomNumber , String type,String capacity, String amenities , double price ) {
-        if ( roomNumber == null || roomNumber.isBlank() || type == null || type.isBlank() || capacity == null
+    public Room createRoom(String type,String capacity, String amenities , double price) {
+        if (type == null || type.isBlank() || capacity == null
          || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) {
             return null;
         }
@@ -30,9 +30,7 @@ public class InMemoryRoomRepository implements RoomRepository {
 
     @Override
     public Room retrieveRoom(String roomNumber) {
-        if (roomNumber == null || roomNumber.isBlank()) {
-            return null;
-        }
+        if (roomNumber == null || roomNumber.isBlank()) return null;
         return repository.get(roomNumber);
     }
 
@@ -47,8 +45,8 @@ public class InMemoryRoomRepository implements RoomRepository {
     public boolean deleteRoom(Room room) {
         if (room == null) return false;
         return  repository.remove(room.getRoomNumber(), room);
-
     }
+    
     @Override
     public Stream<Room> stream() {
         return repository.values().stream();

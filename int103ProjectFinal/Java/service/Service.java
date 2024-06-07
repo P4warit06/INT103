@@ -17,6 +17,12 @@ public class Service {
         this.roomRepo = roomRepo;
     }
 
+    public Room createRoom(String type,String capacity, String amenities , double price) {return roomRepo.createRoom(type, capacity, amenities, price);}
+
+    public boolean updateRoom(Room room) {
+        return roomRepo.updateRoom(room);
+    }
+
     public boolean checkRoomAvaliable(String roomNumber){
         var room = roomRepo.retrieveRoom(roomNumber);
         return room.isAvailable();

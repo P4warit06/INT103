@@ -133,8 +133,10 @@ public class Test {
          // Test createRoomReservation method
         Room r6 = new Room("6", "airConditional, SuperBig", "6 people", "have", 18000.00);
         Room r7 = new Room("69", "airConditional, SuperBig", "6 people", "have", 18000.00);
+        Room r8 = new Room("100", "airConditional, SuperBig", "6 people", "have", 18000.00);
         //Object Person
         Person p6 = new Person("6", "Job", "Job@email.kmutt.ac.th", "Roi Et");
+
 
         //Test createRoomReservation method
         Reservation reservation = service.createRoomReservation(  p6,  r6,  r6, LocalDate.of(2024,6,6), LocalDate.of(2025,6,6));
@@ -156,12 +158,25 @@ public class Test {
         System.out.println("room7 roomNumber: " + r7.getRoomNumber());
         System.out.println("room6 roomNumber: " + r6.getRoomNumber());
 
-        boolean isRoomAvailable = service.checkRoomAvaliable("6");
-        System.out.println("Is Room6 Available(fn): " + isRoomAvailable);
+        var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
+        var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
+        System.out.println("## Check Room 6##" + service.checkRoomAvaliable(obj1.getRoomNumber()));
+        System.out.println("## Check Room 7##" + service.checkRoomAvaliable(obj2.getRoomNumber()));
 
-        // Test checkRoomAvaliable method
-        boolean isRoomAvailables = service.checkRoomAvaliable("69");
-        System.out.println("Is Room7 Available(fn): " + isRoomAvailable);
+
+        service.updateRoom(r6);
+        service.updateRoom(r7);
+        boolean isRoom6Available = service.checkRoomAvaliable(r6.getRoomNumber());
+        System.out.println("Is Room6 Available(fn): " + isRoom6Available);
+//         Test checkRoomAvaliable method
+        boolean isRoom7Availables = service.checkRoomAvaliable(r7.getRoomNumber());
+        System.out.println("Is Room7 Available(fn): " + isRoom7Availables);
+
+
+
+
+
+
 
         // Test cancelRoomReservation method
         boolean isCancelled = service.cancelRoomReservation(reservation);
