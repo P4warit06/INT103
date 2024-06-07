@@ -16,6 +16,9 @@ public class TestWriteFile {
 //        testFilePerson();
         testFileRoom();
     }
+    public static void testFilePerson() {
+
+    }
 
     public static void testFileRoom() {
         FileRoomRepository fileRoomRepository = new FileRoomRepository();
@@ -39,11 +42,5 @@ public class TestWriteFile {
         //test stream
         System.out.println("###Test stream###");
         System.out.println(fileRoomRepository.stream());
-
-    }
-    public static void testFilePerson() {
-        FilePersonRepository filePersonRepository = new FilePersonRepository();
-        var obj1 = filePersonRepository.createPerson("Ohm", "ohm@gmail.com", "12345");
-        System.out.println(filePersonRepository.retrievePerson(obj1.getPersonId()));
     }
 }

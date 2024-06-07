@@ -41,6 +41,7 @@ public class FileRoomRepository implements RoomRepository {
     public Room createRoom(String type, String capacity, String amenities, double price) {
         if (type == null || type.isBlank() || capacity == null || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
         String roomNumber = "RoomNumber: " + ++nextRoomNumber;
+        if (repo.containsKey(roomNumber)) return null;
         Room room = new Room(roomNumber, type, amenities, capacity, price);
         repo.put(roomNumber, room);
         return room;
