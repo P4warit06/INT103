@@ -28,7 +28,7 @@ public class InMemoryReservationRepository implements ReservationRepository {
     @Override
     public Reservation retrieveReservation(String number) {
         if (number==null||number.isBlank())return null;
-        return repo.get(number);
+        return repo.get(number) ;
     }
 
     @Override
