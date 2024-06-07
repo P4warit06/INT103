@@ -24,9 +24,9 @@ public class InMemoryPersonRepository  implements PersonRepository {
     }
 
     @Override
-    public Person retrievePerson(String name ) {
-        if (name == null || name.isBlank()) return null;
-        return repo.get(name);
+    public Person retrievePerson(String id) {
+        if (id == null || id.isBlank()) return null;
+        return repo.get(id);
     }
     @Override
     public boolean updatePerson(Person person) {
