@@ -1,6 +1,6 @@
-package Repository.file;
+package repository.file;
 
-import Repository.RoomRepository;
+import repository.RoomRepository;
 import domain.Person;
 import domain.Room;
 
