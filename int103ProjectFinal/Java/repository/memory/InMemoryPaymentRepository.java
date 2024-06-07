@@ -4,6 +4,7 @@ import repository.PaymentRepository;
 import domain.Payment;
 import domain.Reservation;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
@@ -38,10 +39,14 @@ public class InMemoryPaymentRepository implements PaymentRepository {
 
     @Override
     public boolean deletePayment(Payment payment) {
-        if (payment== null) return false;
+        if (payment == null) return false;
         return repo.remove(payment.getPaymentId(),payment);
     }
 
     @Override
-    public Stream<Payment> stream() { return repo.values().stream(); }
+    public Stream<Payment> stream() {
+        return repo.values()
+                .stream()
+                .filter(Objects::nonNull);
+    }
 }
