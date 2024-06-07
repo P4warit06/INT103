@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 public class InMemoryReservationRepository implements ReservationRepository {
-    private long nextReservationId =1;
+    private long nextReservationId = 1;
     private final Map<String,Reservation> repo;
 
     public InMemoryReservationRepository() { repo = new TreeMap<>(); }
@@ -27,7 +27,7 @@ public class InMemoryReservationRepository implements ReservationRepository {
 
     @Override
     public Reservation retrieveReservation(String number) {
-        if (number==null||number.isBlank())return null;
+        if (number==null||number.isBlank()) return null;
         return repo.get(number);
     }
 
@@ -41,7 +41,8 @@ public class InMemoryReservationRepository implements ReservationRepository {
     @Override
     public boolean deleteReservation(Reservation reservation) {
         if (reservation== null) return false;
-        return repo.remove(reservation.getReservationID(),reservation);
+        repo.remove(reservation.getReservationID(),reservation);
+        return true;
     }
 
     @Override

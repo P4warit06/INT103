@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.stream.Stream;
 
 public interface ReservationRepository  {
-
     Reservation createReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate);
     Reservation retrieveReservation(String number);
     boolean updateReservation(Reservation reservation);

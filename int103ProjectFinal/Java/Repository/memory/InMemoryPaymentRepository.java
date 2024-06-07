@@ -8,25 +8,24 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 public class InMemoryPaymentRepository implements PaymentRepository {
-    private long nextPaymentId =1;
+    private long nextPaymentId = 1;
     private final Map<String, Payment> repo;
     public InMemoryPaymentRepository() { repo = new TreeMap<>(); }
 
-
     @Override
     public Payment createPayment(Reservation reservation,double amount, String method, String status) {
-        if (reservation == null || amount <0 || method == null || status == null||method.isBlank()||status.isBlank()) return null;
+        if (reservation == null || amount <0 || method == null || status == null || method.isBlank() || status.isBlank()) return null;
         var number = String.format("A%011d", nextPaymentId);
         if (repo.containsKey(number)) return null;
-       Payment payment = new Payment(number,reservation,amount,method,status);
+        Payment payment = new Payment(number,reservation,amount,method,status);
         repo.put(number,payment);
-         ++nextPaymentId;
+        ++nextPaymentId;
         return payment;
     }
 
     @Override
     public Payment retrievePayment(String number) {
-        if (number==null||number.isBlank())  return null;
+        if (number == null || number.isBlank()) return null;
         return repo.get(number);
     }
 
