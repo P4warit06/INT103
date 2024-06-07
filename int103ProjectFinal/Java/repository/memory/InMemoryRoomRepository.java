@@ -1,6 +1,6 @@
-package Repository.memory;
+package repository.memory;
 
-import Repository.RoomRepository;
+import repository.RoomRepository;
 import domain.Room;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,8 +12,8 @@ public class InMemoryRoomRepository implements RoomRepository {
     public InMemoryRoomRepository() {repo = new TreeMap<>();}
 
     @Override
-    public Room createRoom(String roomNumber , String type,String capacity, String amenities , double price ) {
-        if ( roomNumber == null || roomNumber.isBlank() || type == null || type.isBlank() || capacity == null
+    public Room createRoom(String type,String capacity, String amenities , double price ) {
+        if ( type == null || type.isBlank() || capacity == null
          || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
         String id = String.format("C%010d", NextRoomId);
         if (repo.containsKey(id)) return null ;
@@ -22,6 +22,8 @@ public class InMemoryRoomRepository implements RoomRepository {
         ++NextRoomId;
         return room ;
     }
+
+
 
     @Override
     public Room retrieveRoom(String roomNumber) {

@@ -1,6 +1,6 @@
-package Repository.memory;
+package repository.memory;
 
-import Repository.ReservationRepository;
+import repository.ReservationRepository;
 import domain.Person;
 import domain.Reservation;
 import domain.Room;
