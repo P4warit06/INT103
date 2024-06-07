@@ -1,18 +1,21 @@
 package testDomain;
 
-import domain.Payment;
-import domain.Person;
-import domain.Reservation;
-import domain.Room;
-
+import domain.*;
+import repository.*;
+import repository.memory.InMemoryPaymentRepository;
+import repository.memory.InMemoryPersonRepository;
+import repository.memory.InMemoryReservationRepository;
+import repository.memory.InMemoryRoomRepository;
+import service.*;
 import java.time.LocalDate;
 
 public class Test {
     public static void main(String[] args) {
-        testPerson();
-        testRoom();
-        testPayment();
-        testReservation();
+//        testPerson();
+//        testRoom();
+//        testPayment();
+//        testReservation();
+          testService();
     }
 
     public static void testPerson() {
@@ -77,6 +80,8 @@ public class Test {
         System.out.println(r11.getPrice());
         r11.setPrice(100000.00);
         System.out.println(r11.getPrice());
+        boolean available = r11.isAvailable();
+        System.out.println("r11 is " + available);
     }
     public static void testPayment() {
         System.out.println("### Test Payment ###");
@@ -113,4 +118,77 @@ public class Test {
         System.out.println(re6.getCheckOutDate());
 
     }
-}
+
+    public static void testService(){
+        System.out.println("++++++++ Test Service ++++++++");
+        // Create the service instance
+         Service service = null;
+         service = new Service(
+                 new InMemoryPaymentRepository(),
+                 new InMemoryPersonRepository(),
+                 new InMemoryReservationRepository(),
+                 new InMemoryRoomRepository()
+         );
+
+         // Test createRoomReservation method
+        Room r6 = new Room("6", "airConditional, SuperBig", "6 people", "have", 18000.00);
+        Room r7 = new Room("69", "airConditional, SuperBig", "6 people", "have", 18000.00);
+        Room r8 = new Room("100", "airConditional, SuperBig", "6 people", "have", 18000.00);
+        //Object Person
+        Person p6 = new Person("6", "Job", "Job@email.kmutt.ac.th", "Roi Et");
+
+
+        //Test createRoomReservation method
+        Reservation reservation = service.createRoomReservation(  p6,  r6,  r6, LocalDate.of(2024,6,6), LocalDate.of(2025,6,6));
+        if (reservation != null) System.out.println("Reservation created successfully");
+        else { System.out.println("Failed to create reservation"); }
+        System.out.println("Reservation Id :" + reservation.getReservationID());
+        // Test getPersonCheckInDate method
+        LocalDate checkInDate = service.getPersonCheckInDate("A00000000001");
+        System.out.println("Check-in Date: " + checkInDate);
+
+        // Test getPersonCheckOutDate method
+        LocalDate checkOutDate = service.getPersonCheckOutDate("A00000000001");
+        System.out.println("Check-out Date: " + checkOutDate);
+
+        // Test checkRoomAvaliable method
+        System.out.println("Is Room7 Available: "+ r7.isAvailable());
+        System.out.println("Is Room6 Available: "+ r6.isAvailable());
+
+        System.out.println("room7 roomNumber: " + r7.getRoomNumber());
+        System.out.println("room6 roomNumber: " + r6.getRoomNumber());
+
+        var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
+        var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
+        System.out.println("## Check Room 6##" + service.checkRoomAvaliable(obj1.getRoomNumber()));
+        System.out.println("## Check Room 7##" + service.checkRoomAvaliable(obj2.getRoomNumber()));
+
+
+        service.updateRoom(r6);
+        service.updateRoom(r7);
+        boolean isRoom6Available = service.checkRoomAvaliable(r6.getRoomNumber());
+        System.out.println("Is Room6 Available(fn): " + isRoom6Available);
+//         Test checkRoomAvaliable method
+        boolean isRoom7Availables = service.checkRoomAvaliable(r7.getRoomNumber());
+        System.out.println("Is Room7 Available(fn): " + isRoom7Availables);
+
+
+
+
+
+
+
+        // Test cancelRoomReservation method
+        boolean isCancelled = service.cancelRoomReservation(reservation);
+        System.out.println("Reservation cancelled: " + isCancelled);
+
+        // Test roomReservationPayment method
+        Payment payment = service.roomReservationPayment(reservation, 200.0, "Credit Card", "Paid");
+        if (payment != null) {
+            System.out.println("Payment processed successfully");
+        } else {
+            System.out.println("Failed to process payment");
+        }
+    }
+    }
+
