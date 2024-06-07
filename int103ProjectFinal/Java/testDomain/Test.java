@@ -1,10 +1,9 @@
 package testDomain;
 
+import repository.memory.InMemoryReservationRepository;
 import domain.*;
-import repository.*;
 import repository.memory.InMemoryPaymentRepository;
 import repository.memory.InMemoryPersonRepository;
-import repository.memory.InMemoryReservationRepository;
 import repository.memory.InMemoryRoomRepository;
 import service.*;
 import java.time.LocalDate;
