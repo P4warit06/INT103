@@ -23,7 +23,7 @@ public class Service {
         return roomRepo.updateRoom(room);
     }
 
-    public boolean checkRoomAvaliable(String roomNumber){
+    public boolean checkRoomAvailable(String roomNumber){
         var room = roomRepo.retrieveRoom(roomNumber);
         return room.isAvailable();
     }

@@ -159,16 +159,16 @@ public class Test {
 
         var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
         var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
-        System.out.println("## Check Room 6##" + service.checkRoomAvaliable(obj1.getRoomNumber()));
-        System.out.println("## Check Room 7##" + service.checkRoomAvaliable(obj2.getRoomNumber()));
+        System.out.println("## Check Room 6##" + service.checkRoomAvailable(obj1.getRoomNumber()));
+        System.out.println("## Check Room 7##" + service.checkRoomAvailable(obj2.getRoomNumber()));
 
 
         service.updateRoom(r6);
         service.updateRoom(r7);
-        boolean isRoom6Available = service.checkRoomAvaliable(r6.getRoomNumber());
+        boolean isRoom6Available = service.checkRoomAvailable(r6.getRoomNumber());
         System.out.println("Is Room6 Available(fn): " + isRoom6Available);
 //         Test checkRoomAvaliable method
-        boolean isRoom7Availables = service.checkRoomAvaliable(r7.getRoomNumber());
+        boolean isRoom7Availables = service.checkRoomAvailable(r7.getRoomNumber());
         System.out.println("Is Room7 Available(fn): " + isRoom7Availables);
 
 
