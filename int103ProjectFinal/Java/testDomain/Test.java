@@ -2,10 +2,10 @@ package testDomain;
 
 import domain.*;
 import repository.*;
-import repository.memory.InMemoryPaymentRepository;
-import repository.memory.InMemoryPersonRepository;
-import repository.memory.InMemoryReservationRepository;
-import repository.memory.InMemoryRoomRepository;
+import repository.memory.*;
+import repository.memory.*;
+import repository.memory.*;
+import repository.*;
 import service.*;
 import java.time.LocalDate;
 
@@ -15,7 +15,7 @@ public class Test {
 //        testRoom();
 //        testPayment();
 //        testReservation();
-          testService();
+//          testService();
     }
 
     public static void testPerson() {
@@ -118,7 +118,6 @@ public class Test {
         System.out.println(re6.getCheckOutDate());
 
     }
-
     public static void testService(){
         System.out.println("++++++++ Test Service ++++++++");
         // Create the service instance
@@ -162,8 +161,6 @@ public class Test {
         var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
         System.out.println("## Check Room 6##" + service.checkRoomAvaliable(obj1.getRoomNumber()));
         System.out.println("## Check Room 7##" + service.checkRoomAvaliable(obj2.getRoomNumber()));
-
-
         service.updateRoom(r6);
         service.updateRoom(r7);
         boolean isRoom6Available = service.checkRoomAvaliable(r6.getRoomNumber());
@@ -171,17 +168,9 @@ public class Test {
 //         Test checkRoomAvaliable method
         boolean isRoom7Availables = service.checkRoomAvaliable(r7.getRoomNumber());
         System.out.println("Is Room7 Available(fn): " + isRoom7Availables);
-
-
-
-
-
-
-
         // Test cancelRoomReservation method
         boolean isCancelled = service.cancelRoomReservation(reservation);
         System.out.println("Reservation cancelled: " + isCancelled);
-
         // Test roomReservationPayment method
         Payment payment = service.roomReservationPayment(reservation, 200.0, "Credit Card", "Paid");
         if (payment != null) {
@@ -190,5 +179,5 @@ public class Test {
             System.out.println("Failed to process payment");
         }
     }
-    }
+}
 
