@@ -33,7 +33,6 @@ public class TestPersonConnection {
                 System.out.println(resultSet.getString(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3)
                         + " " + resultSet.getString(4));
             }
-
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TestPersonConnection.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

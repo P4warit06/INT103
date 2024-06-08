@@ -17,7 +17,7 @@ public class Test {
 //        testRoom();
 //        testPayment();
 //        testReservation();
-//          testService();
+          testService();
         Service service = new Service(
                 new InMemoryPaymentRepository(),
                 new InMemoryPersonRepository(),
@@ -209,11 +209,11 @@ public class Test {
 
         service.updateRoom(r6);
         service.updateRoom(r7);
-        boolean isRoom6Available = service.checkRoomAvailable(r6.getRoomNumber());
-        System.out.println("Is Room6 Available(fn): " + isRoom6Available);
+//        boolean isRoom6Available = service.checkRoomAvailable(r6.getRoomNumber());
+//        System.out.println("Is Room6 Available(fn): " + isRoom6Available);
 //         Test checkRoomAvaliable method
-        boolean isRoom7Availables = service.checkRoomAvailable(r7.getRoomNumber());
-        System.out.println("Is Room7 Available(fn): " + isRoom7Availables);
+//        boolean isRoom7Availables = service.checkRoomAvailable(r7.getRoomNumber());
+//        System.out.println("Is Room7 Available(fn): " + isRoom7Availables);
 
         // Test cancelRoomReservation method
         boolean isCancelled = service.cancelRoomReservation(reservation);

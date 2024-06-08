@@ -26,7 +26,7 @@ public class RoomBookingUI {
                 1. Yes, bring me to login.
                 2. No, I want to create an account.
                 3. Exit
-                your choice is [1-3] : 
+                your choice is [1-3] :
                 """;
         System.out.print(startMenu);
         while (sc.hasNextLine()) {
@@ -57,11 +57,11 @@ public class RoomBookingUI {
         Console c = System.console();
 
         String LoginMenu = """
-                                
+
                 Do you want to Login?
                 1. Login!
                 2. No, back to start menu.
-                your choice is [1-2] : 
+                your choice is [1-2] :
                 """;
         System.out.print(LoginMenu);
         while (sc.hasNextLine()) {

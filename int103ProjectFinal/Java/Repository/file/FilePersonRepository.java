@@ -41,8 +41,7 @@ public class FilePersonRepository implements PersonRepository {
 
     @Override
     public Person createPerson(String name, String email, String password) {
-        if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank())
-            return null;
+        if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank()) return null;
         String personId = "PersonId: " + nextPersonId++;
         if (repo.containsKey(personId)) return null;
         Person person = new Person(personId, name, email, password, 20000.00);
