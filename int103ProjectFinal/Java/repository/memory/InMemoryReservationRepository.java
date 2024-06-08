@@ -5,8 +5,11 @@ import domain.Person;
 import domain.Reservation;
 import domain.Room;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class InMemoryReservationRepository implements ReservationRepository {
@@ -26,9 +29,34 @@ public class InMemoryReservationRepository implements ReservationRepository {
     }
 
     @Override
+    public Reservation createReservation(Person person, Room room) {
+        if (person == null || room == null) return null;
+        String number = String.format("A%011d", nextReservationId);
+        if (repo.containsKey(number)) return null;
+        if(person.getBalance()< room.getPrice()){
+            System.out.println("Your balance less than room price");
+            return null;
+        }
+        person.setBalance(person.getBalance() - room.getPrice());
+        room.setAvailable(false);
+        Reservation reservation = new Reservation(number, person, room);
+        repo.put(number,reservation);
+        ++nextReservationId;
+        return reservation;
+    }
+
+    @Override
     public Reservation retrieveReservation(String number) {
         if (number==null||number.isBlank()) return null;
         return repo.get(number);
+    }
+
+    @Override
+    public List<Reservation> getReservation(String personalId){
+        Collection<Reservation> values = repo.values();
+        return values.stream()
+                .filter(r -> r.getPerson().getPersonId().equals(personalId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -44,6 +72,7 @@ public class InMemoryReservationRepository implements ReservationRepository {
         repo.remove(reservation.getReservationID(),reservation);
         return true;
     }
+
 
     @Override
     public Stream<Reservation> stream() { return repo.values().stream(); }

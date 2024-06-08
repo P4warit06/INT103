@@ -1,21 +1,63 @@
 package testDomain;
 
+import repository.memory.InMemoryReservationRepository;
 import domain.*;
-import repository.*;
-import repository.memory.*;
-import repository.memory.*;
-import repository.memory.*;
-import repository.*;
+import repository.memory.InMemoryPaymentRepository;
+import repository.memory.InMemoryPersonRepository;
+import repository.memory.InMemoryRoomRepository;
 import service.*;
+import ui.RoomBookingUI;
+
 import java.time.LocalDate;
 
 public class Test {
+
     public static void main(String[] args) {
 //        testPerson();
 //        testRoom();
 //        testPayment();
 //        testReservation();
 //          testService();
+        Service service = new Service(
+                new InMemoryPaymentRepository(),
+                new InMemoryPersonRepository(),
+                new InMemoryReservationRepository(),
+                new InMemoryRoomRepository()
+        );
+        initialRoom(service);
+        initialPersonal(service);
+        testui(service);
+
+    }
+
+    private static void testui(Service service) {
+
+        System.out.println("++++++++ Test UI ++++++++");
+        // Create the UI instance
+        RoomBookingUI ui = new RoomBookingUI(false, service);
+        // Start the UI
+        ui.start();
+        // Test the UI methods
+        // ...
+        System.out.println("++++++++ End Test UI ++++++++");
+    }
+
+    private static void initialRoom(Service service){
+        var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
+        var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
+        System.out.println("## Check Room 6##" + service.checkRoomAvailable(obj1.getRoomNumber()));
+        System.out.println("## Check Room 7##" + service.checkRoomAvailable(obj2.getRoomNumber()));
+    }
+
+    private static void initialPersonal(Service service){
+        service.registerPerson("Ohm", "ohm.chonburi@mail.kmutt.ac.th", "1150");
+        service.registerPerson("wee", "vee.minburi@mail.kmutt.ac.th", "191");
+        service.registerPerson("Smark", "smark.Sakhon@mail.kmutt.ac.th", "monkey");
+        service.registerPerson("Ice", "ice.chonburi@mail.kmutt.ac.th", "RTX3090");
+        service.registerPerson("Smill", "smill.Sakhon@mail.kmutt.ac.th", "smill.sakhon");
+        service.registerPerson("IDontKnow", "Eiei@mail.kmutt.ac.th", "Kai");
+        service.registerPerson("1", "1", "1");
+
     }
 
     public static void testPerson() {
@@ -24,12 +66,12 @@ public class Test {
         Room r1 = new Room("1", "airConditional", "2 people", "don't have", 3500.00);
         Room r2 = new Room("2", "airConditional", "2 people", "have", 4500.00);
         //Create Person
-        Person p1 = new Person("1", "Ohm", "ohm.chonburi@mail.kmutt.ac.th", "1150");
-        Person p2 = new Person("2", "wee", "vee.minburi@mail.kmutt.ac.th", "191");
-        Person p3 = new Person("3", "Smark", "smark.Sakhon@mail.kmutt.ac.th", "monkey");
-        Person p4 = new Person("4", "Ice", "ice.chonburi@mail.kmutt.ac.th", "RTX3090");
-        Person p5 = new Person("5", "Smill", "smill.Sakhon@mail.kmutt.ac.th", "smill.sakhon");
-        Person p6 = new Person("5", "IDontKnow", "Eiei@mail.kmutt.ac.th", "Kai");
+        Person p1 = new Person("1", "Ohm", "ohm.chonburi@mail.kmutt.ac.th", "1150", 9900.00);
+        Person p2 = new Person("2", "wee", "vee.minburi@mail.kmutt.ac.th", "191", 9900.00);
+        Person p3 = new Person("3", "Smark", "smark.Sakhon@mail.kmutt.ac.th", "monkey", 9900.00);
+        Person p4 = new Person("4", "Ice", "ice.chonburi@mail.kmutt.ac.th", "RTX3090", 9900.00);
+        Person p5 = new Person("5", "Smill", "smill.Sakhon@mail.kmutt.ac.th", "smill.sakhon", 9900.00);
+        Person p6 = new Person("5", "IDontKnow", "Eiei@mail.kmutt.ac.th", "Kai", 9900.00);
         //test toString
         System.out.println("## Test toString ##");
         System.out.println(p1.toString());
@@ -88,7 +130,7 @@ public class Test {
         //Objects Room
         Room r111 = new Room("111", "airConditional, Big", "4 people", "have", 6000.00);
         //Object Person
-        Person p6 = new Person("00", "IDontKnow", "Eiei@mail.kmutt.ac.th", "Kai");
+        Person p6 = new Person("00", "IDontKnow", "Eiei@mail.kmutt.ac.th", "Kai", 9900.00);
         //Object Reservation
         Reservation re1 = new Reservation("1", p6, r111, r111, LocalDate.of(2024,6,6), LocalDate.of(2025,6,6));
         //Create Payment
@@ -106,7 +148,7 @@ public class Test {
         Room r6 = new Room("6", "airConditional, SuperBig", "6 people", "have", 18000.00);
         System.out.println(r6.isAvailable());
         //Object Person
-        Person p6 = new Person("6", "Job", "Job@email.kmutt.ac.th", "Roi Et");
+        Person p6 = new Person("6", "Job", "Job@email.kmutt.ac.th", "Roi Et", 9900.00);
         //Create Reservation
         Reservation re6 = new Reservation("6", p6, r6, r6, LocalDate.of(2024,6,6), LocalDate.of(2025,6,6));
         System.out.println(r6.isAvailable());
@@ -118,6 +160,7 @@ public class Test {
         System.out.println(re6.getCheckOutDate());
 
     }
+
     public static void testService(){
         System.out.println("++++++++ Test Service ++++++++");
         // Create the service instance
@@ -134,7 +177,7 @@ public class Test {
         Room r7 = new Room("69", "airConditional, SuperBig", "6 people", "have", 18000.00);
         Room r8 = new Room("100", "airConditional, SuperBig", "6 people", "have", 18000.00);
         //Object Person
-        Person p6 = new Person("6", "Job", "Job@email.kmutt.ac.th", "Roi Et");
+        Person p6 = new Person("6", "Job", "Job@email.kmutt.ac.th", "Roi Et", 9900.00);
 
 
         //Test createRoomReservation method
@@ -159,18 +202,23 @@ public class Test {
 
         var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
         var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
-        System.out.println("## Check Room 6##" + service.checkRoomAvaliable(obj1.getRoomNumber()));
-        System.out.println("## Check Room 7##" + service.checkRoomAvaliable(obj2.getRoomNumber()));
+        System.out.println("## Check Room 6##" + service.checkRoomAvailable(obj1.getRoomNumber()));
+        System.out.println("## Check Room 7##" + service.checkRoomAvailable(obj2.getRoomNumber()));
+
+
+
         service.updateRoom(r6);
         service.updateRoom(r7);
-        boolean isRoom6Available = service.checkRoomAvaliable(r6.getRoomNumber());
+        boolean isRoom6Available = service.checkRoomAvailable(r6.getRoomNumber());
         System.out.println("Is Room6 Available(fn): " + isRoom6Available);
 //         Test checkRoomAvaliable method
-        boolean isRoom7Availables = service.checkRoomAvaliable(r7.getRoomNumber());
+        boolean isRoom7Availables = service.checkRoomAvailable(r7.getRoomNumber());
         System.out.println("Is Room7 Available(fn): " + isRoom7Availables);
+
         // Test cancelRoomReservation method
         boolean isCancelled = service.cancelRoomReservation(reservation);
         System.out.println("Reservation cancelled: " + isCancelled);
+
         // Test roomReservationPayment method
         Payment payment = service.roomReservationPayment(reservation, 200.0, "Credit Card", "Paid");
         if (payment != null) {
@@ -179,5 +227,5 @@ public class Test {
             System.out.println("Failed to process payment");
         }
     }
-}
+    }
 

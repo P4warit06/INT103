@@ -17,7 +17,7 @@ public class InMemoryPersonRepository  implements PersonRepository {
         if (name == null || email == null || password == null||name.isBlank() || email.isBlank() || password.isBlank()) return null;
         String id = String.format("C%010d", NextPersonId);
         if (repo.containsKey(id)) return null;
-        Person person = new Person(id, name, email, password) ;
+        Person person = new Person(id, name, email, password, 20000) ;
         repo.put(id, person) ;
         ++NextPersonId;
         return person;
@@ -28,6 +28,18 @@ public class InMemoryPersonRepository  implements PersonRepository {
         if (id == null || id.isBlank()) return null;
         return repo.get(id);
     }
+
+    @Override
+    public Person loginPerson(String email, String password){
+        if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
+        for (Person person : repo.values()) {
+            if (person.getEmail().equals(email) && person.getPassword().equals(password)) {
+                return person;
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean updatePerson(Person person) {
         if (person == null) return false;
