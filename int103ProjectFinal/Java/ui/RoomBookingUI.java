@@ -89,9 +89,7 @@ public class RoomBookingUI {
                             System.out.println("Hello " + customerPerson.getName() + "!");
                             uiViewMenu();
                         }
-
                     }
-
                     case 2 -> start();
                 }
                 break;
