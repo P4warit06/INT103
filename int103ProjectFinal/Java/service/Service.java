@@ -5,6 +5,7 @@ import repository.*;
 import repository.memory.InMemoryPersonRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -38,8 +39,21 @@ public class Service {
         return room.isAvailable();
     }
 
+    public Map<String, Room> getAllRooms() {
+        return roomRepo.getAllRoom();
+    }
+
+    public boolean deleteRoom(Room room) {
+        return roomRepo.deleteRoom(room);
+    }
+
+
     public Reservation createRoomReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate) {
         return reservationRepo.createReservation(person, room, status, checkInDate, checkOutDate);
+    }
+
+    public Reservation createRoomReservation(Person person, Room room) {
+        return reservationRepo.createReservation(person, room);
     }
 
     public void registerPerson(String name, String email, String password) {
@@ -48,7 +62,7 @@ public class Service {
 
 
     public Person getLoginPerson(String email,String password) {
-        return personRepo.retrievePerson(email);
+        return personRepo.loginPerson(email,password);
     }
 
         public boolean updatePerson (Person person){
@@ -78,8 +92,24 @@ public class Service {
             return reservationRepo.deleteReservation(reservationDelete);
         }
 
+        public void cancelReservation(Reservation reservation, Person person){
+
+            Room room = reservation.getRoom();
+            room.setAvailable(true);
+
+            var refund = room.getPrice() + person.getBalance();
+            person.setBalance(refund);
+            if(roomRepo.updateRoom(room)){
+                reservationRepo.deleteReservation(reservation);
+                personRepo.updatePerson(person);
+            }
+        }
+
         public Payment roomReservationPayment (Reservation reservation,double amount, String method, String status){
             return paymentRepo.createPayment(reservation, amount, method, status);
         }
 
+        public List<Reservation> getMyReservation(String personalID){
+            return reservationRepo.getReservation(personalID);
+        }
     }

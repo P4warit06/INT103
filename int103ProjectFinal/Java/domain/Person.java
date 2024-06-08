@@ -8,7 +8,9 @@ public class Person implements Comparable<Person>, Serializable {
     private String name;
     private String email;
     private String password;
-    public Person(String personId, String name, String email, String password) {
+    private double balance;
+    public Person(String personId, String name, String email, String password, double balance) {
+        this.balance = balance;
         if (personId == null || personId.isBlank() || name == null || name.isBlank() || email == null || email.isBlank()
                 || password == null || password.isBlank()) throw new InvalidPersonFormatException();
         this.personId = personId;
@@ -54,4 +56,12 @@ public class Person implements Comparable<Person>, Serializable {
     }
     @Override
     public int compareTo(Person person) {return personId.compareTo(person.personId);}
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
 }

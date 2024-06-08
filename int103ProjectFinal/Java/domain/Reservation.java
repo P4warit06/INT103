@@ -17,6 +17,14 @@ public class Reservation implements Serializable {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
 
+    public Reservation(String reservationID, Person person, Room room) {
+        this.reservationID = reservationID;
+        this.person = person;
+        this.room = room;
+        this.checkInDate = LocalDate.of(2024,6,6);
+        this.checkOutDate = LocalDate.of(2024,6,6);
+    }
+
     public Reservation(String reservationID, Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate) {
         if (reservationID == null || reservationID.isBlank() || person == null || room == null || status == null || !status.isAvailable()) throw new InvalidReservationFormatException();
         this.reservationID = reservationID;
