@@ -1,9 +1,6 @@
 package connection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,12 +15,16 @@ public class PersonConnection {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Data loaded");
             connection = DriverManager.getConnection(URL, username, password);
-            System.out.println("Database connected");
             Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM person";
+            ResultSet resultSet = statement.executeQuery(sql);
 
-            
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3)
+                        + " " + resultSet.getString(4));
+            }
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PersonConnection.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
