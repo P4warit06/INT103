@@ -12,8 +12,7 @@ import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class DatabasePersonRepository implements PersonRepository {
-    private long nextPersonId = 1;
-    private Map<String, Person> repo;
+    private long nextPersonId;
 
     public static Connection DatabasePersonConnection() {
         String URL = "jdbc:mysql://localhost:3306/dormitorydatabase";
@@ -34,13 +33,10 @@ public class DatabasePersonRepository implements PersonRepository {
     @Override
     public Person createPerson(String name, String email, String password) {
         if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank()) return null;
-        String insertQuery = "INSERT INTO person (name, email, password, balance) VALUES (?, ?, ?, 20000.00)";
-        String personId = "PersonId" + nextPersonId++;
-        if (repo.containsKey(personId)) {return null;};
-        Person person = new Person(personId, name, email, password, 20000.00);
+        String insertQuery = "INSERT INTO person (name, email, password, balance) VALUES (?, ?, ?, '20000.0');";
         try(Connection connection = DatabasePersonConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-            preparedStatement.setString(1, person.getPersonId());
+            preparedStatement.setString(1, nextPersonId);
             preparedStatement.setString(2, person.getName());
             preparedStatement.setString(3, person.getEmail());
             preparedStatement.setString(4, person.getPassword());
@@ -65,7 +61,7 @@ public class DatabasePersonRepository implements PersonRepository {
         } catch (SQLException ex) {
             Logger.getLogger(TestPersonConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return repo.get(id);
+        return null;
     }
 
     @Override
