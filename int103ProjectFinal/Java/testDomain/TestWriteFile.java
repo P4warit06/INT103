@@ -2,7 +2,7 @@ package testDomain;
 
 import repository.file.FilePaymentRepository;
 import repository.file.FilePersonRepository;
-import Repository.file.FileReservationRepository;
+import repository.file.FileReservationRepository;
 import repository.file.FileRoomRepository;
 import domain.Room;
 
