@@ -9,16 +9,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Map;
-
-public class FilePersonRepository {
-
 import java.io.*;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Stream;
-
-    public class FilePersonRepository implements PersonRepository {
+public class FilePersonRepository implements PersonRepository {
         private String filename = "person.dat";
         private long nextPersonId = 0;
         private Map<String, Person> repo;
@@ -80,4 +76,3 @@ import java.util.stream.Stream;
                     .filter(Objects::nonNull);
         }
     }
-}

@@ -1,6 +1,6 @@
-package Repository.memory;
+package repository.memory;
 
-import Repository.RoomRepository;
+import repository.RoomRepository;
 import domain.Room;
 
 import java.util.HashMap;
