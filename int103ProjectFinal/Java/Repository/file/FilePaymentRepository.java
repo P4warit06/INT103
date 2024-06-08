@@ -1,4 +1,4 @@
-package Repository.file;
+package repository.file;
 
 import Repository.PaymentRepository;
 import domain.Payment;

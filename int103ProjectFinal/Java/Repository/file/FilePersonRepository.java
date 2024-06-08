@@ -1,6 +1,6 @@
-package Repository.file;
+package repository.file;
 
-import Repository.*;
+import repository.*;
 
 import domain.Person;
 
