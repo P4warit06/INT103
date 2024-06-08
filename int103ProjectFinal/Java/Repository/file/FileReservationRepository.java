@@ -1,6 +1,6 @@
-package Repository.file;
+package repository.file;
 
-import Repository.ReservationRepository;
+import repository.ReservationRepository;
 import domain.Payment;
 import domain.Person;
 import domain.Reservation;
