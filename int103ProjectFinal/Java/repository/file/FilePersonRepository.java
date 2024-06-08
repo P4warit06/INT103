@@ -1,14 +1,9 @@
-package repository.file;
+package Repository.file;
 
-import repository.*;
+import Repository.*;
 
 import domain.Person;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.util.Map;
 import java.io.*;
 import java.util.Map;
 import java.util.Objects;
@@ -23,9 +18,9 @@ public class FilePersonRepository implements PersonRepository {
     public FilePersonRepository() {
         File filePerson = new File(filename);
         if (filePerson.exists()) {
-            try (FileInputStream fi = new FileInputStream(filePerson);
-                 BufferedInputStream bi = new BufferedInputStream(fi);
-                 ObjectInputStream oi = new ObjectInputStream(bi)) {
+            try(FileInputStream fi = new FileInputStream(filePerson);
+                BufferedInputStream bi = new BufferedInputStream(fi);
+                ObjectInputStream oi = new ObjectInputStream(bi)) {
                 nextPersonId = oi.readLong();
                 repo = (Map<String, Person>) oi.readObject();
             } catch (Exception e) {
@@ -41,11 +36,10 @@ public class FilePersonRepository implements PersonRepository {
 
     @Override
     public Person createPerson(String name, String email, String password) {
-        if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank())
-            return null;
+        if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank()) return null;
         String personId = "PersonId: " + nextPersonId++;
         if (repo.containsKey(personId)) return null;
-        Person person = new Person(personId, name, email, password, 20000);
+        Person person = new Person(personId, name, email, password);
         repo.put(personId, person);
         return person;
     }
@@ -54,11 +48,6 @@ public class FilePersonRepository implements PersonRepository {
     public Person retrievePerson(String id) {
         if (id == null || id.isBlank()) return null;
         return repo.get(id);
-    }
-
-    @Override
-    public Person loginPerson(String email, String password) {
-        return null;
     }
 
     @Override
