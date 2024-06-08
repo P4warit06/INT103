@@ -1,6 +1,6 @@
-package Repository.file;
+package repository.file;
 
-import Repository.ReservationRepository;
+import repository.ReservationRepository;
 import domain.Payment;
 import domain.Person;
 import domain.Reservation;
@@ -11,9 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileReservationRepository implements ReservationRepository {
@@ -43,11 +42,17 @@ public class FileReservationRepository implements ReservationRepository {
     @Override
     public Reservation createReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate) {
         if (person == null || room == null || status == null || checkInDate == null || checkOutDate == null) return null;
-        String reservationId = "ReservationId: " + nextReservationId++;
-        if (repo.containsKey(reservationId)) return null;
-        Reservation reservation = new Reservation(reservationId, person, room, status, checkInDate, checkOutDate);
-        repo.put(reservationId, reservation);
+        String number = String.format("A%011d", nextReservationId);
+        if (repo.containsKey(number)) return null;
+        Reservation reservation = new Reservation(number,person,room,status,checkInDate,checkOutDate);
+        repo.put(number,reservation);
+        ++nextReservationId;
         return reservation;
+    }
+
+    @Override
+    public Reservation createReservation(Person person, Room room) {
+        return null;
     }
 
     @Override
@@ -59,21 +64,25 @@ public class FileReservationRepository implements ReservationRepository {
     @Override
     public boolean updateReservation(Reservation reservation) {
         if (reservation == null) return false;
-        repo.replace(reservation.getReservationID(), reservation);
+        repo.replace(reservation.getReservationID(),reservation); // status , id
         return true;
     }
 
     @Override
     public boolean deleteReservation(Reservation reservation) {
-        if (reservation == null) return false;
-        repo.remove(reservation.getReservationID(), reservation);
+        if (reservation== null) return false;
+        repo.remove(reservation.getReservationID(),reservation);
         return true;
     }
 
     @Override
-    public Stream<Reservation> stream() {
-        return repo.values()
-                .stream()
-                .filter(Objects::nonNull);
+    public Stream<Reservation> stream() { return repo.values().stream(); }
+
+    @Override
+    public List<Reservation> getReservation(String personalId) {
+        Collection<Reservation> values = repo.values();
+        return values.stream()
+                .filter(r -> r.getPerson().getPersonId().equals(personalId))
+                .collect(Collectors.toList());
     }
 }

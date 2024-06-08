@@ -164,15 +164,15 @@ public class Test {
     public static void testService(){
         System.out.println("++++++++ Test Service ++++++++");
         // Create the service instance
-         Service service = null;
-         service = new Service(
-                 new InMemoryPaymentRepository(),
-                 new InMemoryPersonRepository(),
-                 new InMemoryReservationRepository(),
-                 new InMemoryRoomRepository()
-         );
+        Service service = null;
+        service = new Service(
+                new InMemoryPaymentRepository(),
+                new InMemoryPersonRepository(),
+                new InMemoryReservationRepository(),
+                new InMemoryRoomRepository()
+        );
 
-         // Test createRoomReservation method
+        // Test createRoomReservation method
         Room r6 = new Room("6", "airConditional, SuperBig", "6 people", "have", 18000.00);
         Room r7 = new Room("69", "airConditional, SuperBig", "6 people", "have", 18000.00);
         Room r8 = new Room("100", "airConditional, SuperBig", "6 people", "have", 18000.00);
@@ -227,5 +227,5 @@ public class Test {
             System.out.println("Failed to process payment");
         }
     }
-    }
+}
 

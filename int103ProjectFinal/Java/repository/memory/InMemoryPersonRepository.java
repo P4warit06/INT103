@@ -12,7 +12,7 @@ public class InMemoryPersonRepository  implements PersonRepository {
     public InMemoryPersonRepository() {
         repo = new TreeMap<>();
     }
-@Override
+    @Override
     public Person createPerson(String name, String email, String password) {
         if (name == null || email == null || password == null||name.isBlank() || email.isBlank() || password.isBlank()) return null;
         String id = String.format("C%010d", NextPersonId);
@@ -24,9 +24,9 @@ public class InMemoryPersonRepository  implements PersonRepository {
     }
 
     @Override
-    public Person retrievePerson(String id) {
-        if (id == null || id.isBlank()) return null;
-        return repo.get(id);
+    public Person retrievePerson(String name ) {
+        if (name == null || name.isBlank()) return null;
+        return repo.get(name);
     }
 
     @Override

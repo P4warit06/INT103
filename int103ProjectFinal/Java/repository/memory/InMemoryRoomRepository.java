@@ -1,6 +1,6 @@
-package Repository.memory;
+package repository.memory;
 
-import Repository.RoomRepository;
+import repository.RoomRepository;
 import domain.Room;
 
 import java.util.HashMap;
@@ -15,8 +15,8 @@ public class InMemoryRoomRepository implements RoomRepository {
 
     @Override
     public Room createRoom(String type,String capacity, String amenities , double price ) {
-        if (type == null || type.isBlank() || capacity == null
-         || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
+        if ( type == null || type.isBlank() || capacity == null
+                || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
         String id = String.format("C%03d", NextRoomId);
         if (repo.containsKey(id)) return null ;
         Room room = new Room (id,type,capacity,amenities,price);
@@ -36,7 +36,7 @@ public class InMemoryRoomRepository implements RoomRepository {
         for (Room room : repo.values()) {
             roomMap.put(room.getRoomNumber(), room);
         }
-       return roomMap;
+        return roomMap;
     }
 
     @Override

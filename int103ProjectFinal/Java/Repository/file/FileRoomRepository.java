@@ -8,6 +8,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -38,19 +39,29 @@ public class FileRoomRepository implements RoomRepository {
     }
 
     @Override
-    public Room createRoom(String type, String capacity, String amenities, double price) {
-        if (type == null || type.isBlank() || capacity == null || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
-        String roomNumber = "RoomNumber: " + nextRoomNumber++;
-        if (repo.containsKey(roomNumber)) return null;
-        Room room = new Room(roomNumber, type, amenities, capacity, price);
-        repo.put(roomNumber, room);
-        return room;
+    public Room createRoom(String type,String capacity, String amenities , double price ) {
+        if ( type == null || type.isBlank() || capacity == null
+                || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
+        String id = String.format("C%03d", nextRoomNumber);
+        if (repo.containsKey(id)) return null ;
+        Room room = new Room (id,type,capacity,amenities,price);
+        repo.put(id ,room) ;
+        ++nextRoomNumber;
+        return room ;
     }
 
     @Override
     public Room retrieveRoom(String roomNumber) {
         if (roomNumber == null) return null;
         return repo.get(roomNumber);
+    }
+
+    public Map<String, Room> getAllRoom(){
+        Map<String, Room> roomMap = new HashMap<>();
+        for (Room room : repo.values()) {
+            roomMap.put(room.getRoomNumber(), room);
+        }
+        return roomMap;
     }
 
     @Override
@@ -69,8 +80,6 @@ public class FileRoomRepository implements RoomRepository {
 
     @Override
     public Stream<Room> stream() {
-        return repo.values()
-                .stream()
-                .filter(Objects::nonNull);
+        return repo.values().stream();
     }
 }

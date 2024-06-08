@@ -1,9 +1,9 @@
 package testDomain;
 
-import Repository.file.FilePaymentRepository;
-import Repository.file.FilePersonRepository;
+import repository.file.FilePaymentRepository;
+import repository.file.FilePersonRepository;
 import Repository.file.FileReservationRepository;
-import Repository.file.FileRoomRepository;
+import repository.file.FileRoomRepository;
 import domain.Room;
 
 import java.io.BufferedInputStream;
@@ -26,11 +26,11 @@ public class TestWriteFile {
         System.out.println("###Test FilePersonRepo###");
         FilePersonRepository filePersonRepository = new FilePersonRepository();
         //testFileObject
-        var obj1 = filePersonRepository.createPerson("Ohm", "ohm@gmailo.com", "123456789");
-        var obj2 = filePersonRepository.createPerson("Vee", "vee@gmailo.com", "12345678");
-        var obj3 = filePersonRepository.createPerson("SMark", "smark@gmailo.com", "1234567");
-        var obj4 = filePersonRepository.createPerson("Ice", "ice@gmailo.com", "123456");
-        var obj5 = filePersonRepository.createPerson("SMill", "smill@gmailo.com", "12345");
+        var obj1 = filePersonRepository.createPerson("Ohm", "ohm@gmail.com", "123456789");
+        var obj2 = filePersonRepository.createPerson("Vee", "vee@gmail.com", "12345678");
+        var obj3 = filePersonRepository.createPerson("SMark", "smark@gmail.com", "1234567");
+        var obj4 = filePersonRepository.createPerson("Ice", "ice@gmail.com", "123456");
+        var obj5 = filePersonRepository.createPerson("SMill", "smill@gmail.com", "12345");
         //test retrieve
         System.out.println(filePersonRepository.retrievePerson(obj1.getPersonId()));
         System.out.println(filePersonRepository.retrievePerson(obj2.getPersonId()));

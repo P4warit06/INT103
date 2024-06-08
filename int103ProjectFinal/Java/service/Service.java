@@ -65,51 +65,51 @@ public class Service {
         return personRepo.loginPerson(email,password);
     }
 
-        public boolean updatePerson (Person person){
-            return personRepo.updatePerson(person);
-        }
+    public boolean updatePerson (Person person){
+        return personRepo.updatePerson(person);
+    }
 
-        public boolean deletePerson (Person person){
-            return personRepo.deletePerson(person);
-        }
+    public boolean deletePerson (Person person){
+        return personRepo.deletePerson(person);
+    }
 
-        public Reservation getReservationById (String reservationId){
-            return reservationRepo.retrieveReservation(reservationId);
-        }
+    public Reservation getReservationById (String reservationId){
+        return reservationRepo.retrieveReservation(reservationId);
+    }
 
-        public LocalDate getPersonCheckInDate (String reservationId){
-            var reservation = reservationRepo.retrieveReservation(reservationId);
-            if (reservation == null) return null;
-            return reservation.getCheckInDate();
-        }
+    public LocalDate getPersonCheckInDate (String reservationId){
+        var reservation = reservationRepo.retrieveReservation(reservationId);
+        if (reservation == null) return null;
+        return reservation.getCheckInDate();
+    }
 
-        public LocalDate getPersonCheckOutDate (String reservationId){
-            var reservation = reservationRepo.retrieveReservation(reservationId);
-            if (reservation == null) return null;
-            return reservation.getCheckOutDate();
-        }
-        public boolean cancelRoomReservation (Reservation reservationDelete){
-            return reservationRepo.deleteReservation(reservationDelete);
-        }
+    public LocalDate getPersonCheckOutDate (String reservationId){
+        var reservation = reservationRepo.retrieveReservation(reservationId);
+        if (reservation == null) return null;
+        return reservation.getCheckOutDate();
+    }
+    public boolean cancelRoomReservation (Reservation reservationDelete){
+        return reservationRepo.deleteReservation(reservationDelete);
+    }
 
-        public void cancelReservation(Reservation reservation, Person person){
+    public void cancelReservation(Reservation reservation, Person person){
 
-            Room room = reservation.getRoom();
-            room.setAvailable(true);
+        Room room = reservation.getRoom();
+        room.setAvailable(true);
 
-            var refund = room.getPrice() + person.getBalance();
-            person.setBalance(refund);
-            if(roomRepo.updateRoom(room)){
-                reservationRepo.deleteReservation(reservation);
-                personRepo.updatePerson(person);
-            }
-        }
-
-        public Payment roomReservationPayment (Reservation reservation,double amount, String method, String status){
-            return paymentRepo.createPayment(reservation, amount, method, status);
-        }
-
-        public List<Reservation> getMyReservation(String personalID){
-            return reservationRepo.getReservation(personalID);
+        var refund = room.getPrice() + person.getBalance();
+        person.setBalance(refund);
+        if(roomRepo.updateRoom(room)){
+            reservationRepo.deleteReservation(reservation);
+            personRepo.updatePerson(person);
         }
     }
+
+    public Payment roomReservationPayment (Reservation reservation,double amount, String method, String status){
+        return paymentRepo.createPayment(reservation, amount, method, status);
+    }
+
+    public List<Reservation> getMyReservation(String personalID){
+        return reservationRepo.getReservation(personalID);
+    }
+}
