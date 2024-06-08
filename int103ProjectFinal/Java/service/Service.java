@@ -17,7 +17,9 @@ public class Service {
         this.roomRepo = roomRepo;
     }
 
-    public Room createRoom(String type,String capacity, String amenities , double price) {return roomRepo.createRoom(type, capacity, amenities, price);}
+    public Room createRoom(String type,String capacity, String amenities , double price) {
+        return roomRepo.createRoom(type, capacity, amenities, price);
+    }
 
     public boolean updateRoom(Room room) {
         return roomRepo.updateRoom(room);
@@ -31,6 +33,11 @@ public class Service {
     public Reservation createRoomReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate){
         return reservationRepo.createReservation(person,room,status,checkInDate,checkOutDate);
     }
+
+    public Person registerPerson(String name, String email, String password){
+        return personRepo.createPerson(name,email,password);
+    }
+
     public LocalDate getPersonCheckInDate(String reservationId) {
         var reservation = reservationRepo.retrieveReservation(reservationId);
         if(reservation == null)return null;

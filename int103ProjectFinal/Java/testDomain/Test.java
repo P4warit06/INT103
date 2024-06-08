@@ -6,6 +6,8 @@ import repository.memory.InMemoryPaymentRepository;
 import repository.memory.InMemoryPersonRepository;
 import repository.memory.InMemoryRoomRepository;
 import service.*;
+import ui.RoomBookingUI;
+
 import java.time.LocalDate;
 
 public class Test {
@@ -14,7 +16,28 @@ public class Test {
 //        testRoom();
 //        testPayment();
 //        testReservation();
-          testService();
+//          testService();
+        testui();
+    }
+
+    private static void testui() {
+        System.out.println("++++++++ Test UI ++++++++");
+        System.out.println("++++++++ Test UI ++++++++");
+        // Create the service instance
+        Service service = null;
+        service = new Service(
+                new InMemoryPaymentRepository(),
+                new InMemoryPersonRepository(),
+                new InMemoryReservationRepository(),
+                new InMemoryRoomRepository()
+        );
+        // Create the UI instance
+        RoomBookingUI ui = new RoomBookingUI(false);
+        // Start the UI
+        ui.start();
+        // Test the UI methods
+        // ...
+        System.out.println("++++++++ End Test UI ++++++++");
     }
 
     public static void testPerson() {
