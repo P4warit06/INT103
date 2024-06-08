@@ -18,9 +18,9 @@ public class TestWriteFile {
 
 
     public static void main(String[] args) {
-        testFilePerson();
+//        testFilePerson();
         testFileRoom();
-        testFilePaymentAndReservation();
+//        testFilePaymentAndReservation();
     }
     public static void testFilePerson() {
         System.out.println("###Test FilePersonRepo###");

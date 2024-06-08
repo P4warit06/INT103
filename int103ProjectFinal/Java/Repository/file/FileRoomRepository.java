@@ -39,7 +39,7 @@ public class FileRoomRepository implements RoomRepository {
     }
 
     @Override
-    public Room createRoom(String type,String capacity, String amenities , double price ) {
+    public Room createRoom(String type,String capacity, String amenities , double price) {
         if ( type == null || type.isBlank() || capacity == null
                 || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
         String id = String.format("C%03d", nextRoomNumber);
