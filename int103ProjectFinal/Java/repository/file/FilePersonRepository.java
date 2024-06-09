@@ -56,7 +56,18 @@ public class FilePersonRepository implements PersonRepository {
             return repo.get(id);
         }
 
-        @Override
+    @Override
+    public Person loginPerson(String email, String password) {
+        if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
+        for (Person person : repo.values()) {
+            if (person.getEmail().equals(email) && person.getPassword().equals(password)) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    @Override
         public boolean updatePerson(Person person) {
             if (person == null) return false;
             repo.replace(person.getPersonId(), person);
