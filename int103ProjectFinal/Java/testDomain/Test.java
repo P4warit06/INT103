@@ -17,7 +17,7 @@ public class Test {
 //        testRoom();
 //        testPayment();
 //        testReservation();
-//          testService();
+        testService();
         Service service = new Service(
                 new InMemoryPaymentRepository(),
                 new InMemoryPersonRepository(),
@@ -228,4 +228,3 @@ public class Test {
         }
     }
 }
-

@@ -4,6 +4,7 @@ import domain.*;
 import repository.*;
 import repository.memory.InMemoryPersonRepository;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class Service {
         return reservationRepo.createReservation(person, room);
     }
 
-    public void registerPerson(String name, String email, String password) {
+    public void registerPerson(String name, String email, String password)  {
         personRepo.createPerson(name, email, password);
     }
 

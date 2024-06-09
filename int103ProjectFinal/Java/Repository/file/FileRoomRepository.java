@@ -4,10 +4,7 @@ import repository.RoomRepository;
 import domain.Person;
 import domain.Room;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -35,6 +32,18 @@ public class FileRoomRepository implements RoomRepository {
         } else {
             nextRoomNumber = 1;
             repo = new TreeMap<>();
+            writeFile();
+        }
+    }
+
+    private void writeFile() {
+        try(FileOutputStream fo = new FileOutputStream(filename);
+            BufferedOutputStream bo = new BufferedOutputStream(fo);
+            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
+            oo.writeLong(nextRoomNumber);
+            oo.writeObject(repo);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
