@@ -1,5 +1,6 @@
 package repository.file;
 
+import domain.Payment;
 import repository.*;
 
 import domain.Person;
@@ -16,64 +17,87 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 public class FilePersonRepository implements PersonRepository {
-        private String filename = "person.dat";
-        private long nextPersonId = 0;
-        private Map<String, Person> repo;
+    private String filename = "person.dat";
+    private long nextPersonId = 0;
+    private Map<String, Person> repo;
 
-        public FilePersonRepository() {
-            File filePerson = new File(filename);
-            if (filePerson.exists()) {
-                try (FileInputStream fi = new FileInputStream(filePerson);
-                     BufferedInputStream bi = new BufferedInputStream(fi);
-                     ObjectInputStream oi = new ObjectInputStream(bi)) {
-                    nextPersonId = oi.readLong();
-                    repo = (Map<String, Person>) oi.readObject();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    nextPersonId = 1;
-                    repo = new TreeMap<>();
-                }
-            } else {
+    public FilePersonRepository() {
+        File filePerson = new File(filename);
+        if (filePerson.exists()) {
+            try (FileInputStream fi = new FileInputStream(filePerson);
+                 BufferedInputStream bi = new BufferedInputStream(fi);
+                 ObjectInputStream oi = new ObjectInputStream(bi)) {
+                nextPersonId = oi.readLong();
+                repo = (Map<String, Person>) oi.readObject();
+            } catch (Exception e) {
+                e.printStackTrace();
                 nextPersonId = 1;
                 repo = new TreeMap<>();
             }
-        }
-
-        @Override
-        public Person createPerson(String name, String email, String password) {
-            if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank())
-                return null;
-            String personId = "PersonId: " + nextPersonId++;
-            if (repo.containsKey(personId)) return null;
-            Person person = new Person(personId, name, email, password);
-            repo.put(personId, person);
-            return person;
-        }
-
-        @Override
-        public Person retrievePerson(String id) {
-            if (id == null || id.isBlank()) return null;
-            return repo.get(id);
-        }
-
-        @Override
-        public boolean updatePerson(Person person) {
-            if (person == null) return false;
-            repo.replace(person.getPersonId(), person);
-            return true;
-        }
-
-        @Override
-        public boolean deletePerson(Person person) {
-            if (person == null) return false;
-            repo.remove(person.getPersonId(), person);
-            return true;
-        }
-
-        @Override
-        public Stream<Person> stream() {
-            return repo.values()
-                    .stream()
-                    .filter(Objects::nonNull);
+        } else {
+            nextPersonId = 1;
+            repo = new TreeMap<>();
+            writeFile();
         }
     }
+
+    private void writeFile() {
+        try(FileOutputStream fo = new FileOutputStream(filename);
+            BufferedOutputStream bo = new BufferedOutputStream(fo);
+            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
+            oo.writeLong(nextPersonId);
+            oo.writeObject(repo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Person createPerson(String name, String email, String password) {
+        if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank())
+            return null;
+        String personId = "PersonId: " + nextPersonId++;
+        if (repo.containsKey(personId)) return null;
+        Person person = new Person(personId, name, email, password, 20000.00);
+        repo.put(personId, person);
+        return person;
+    }
+
+    @Override
+    public Person retrievePerson(String id) {
+        if (id == null || id.isBlank()) return null;
+        return repo.get(id);
+    }
+
+    @Override
+    public Person loginPerson(String email, String password) {
+        if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
+        for (Person person : repo.values()) {
+            if (person.getEmail().equals(email) && person.getPassword().equals(password)) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updatePerson(Person person) {
+        if (person == null) return false;
+        repo.replace(person.getPersonId(), person);
+        return true;
+    }
+
+    @Override
+    public boolean deletePerson(Person person) {
+        if (person == null) return false;
+        repo.remove(person.getPersonId(), person);
+        return true;
+    }
+
+    @Override
+    public Stream<Person> stream() {
+        return repo.values()
+                .stream()
+                .filter(Objects::nonNull);
+    }
+}
