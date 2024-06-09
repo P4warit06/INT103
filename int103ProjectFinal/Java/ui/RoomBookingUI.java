@@ -18,6 +18,39 @@ public class RoomBookingUI {
         service = serviceStart;
     }
 
+    public void chooseKeepData() {
+        Scanner sc = new Scanner(System.in);
+        String chooseKeepData = """
+                Choose what you want to keep data in?
+                1. Memory
+                2. File
+                3. Database
+                your choice is [1-3] : 
+                """;
+        System.out.print(chooseKeepData);
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (line.isBlank()) {
+                System.out.print(chooseKeepData);
+                continue;
+            }
+            Scanner ans = new Scanner(line);
+//            ans.useDelimiter("\\n");
+            if (ans.hasNext("1|2|3")) {
+                int i = ans.nextInt();
+                switch (i) {
+                    case 1 -> uiLogin();
+                    case 2 -> uiRegisterPerson();
+                    case 3 ->  System.out.println("Exit");
+
+                }
+                break;
+            } else {
+                System.out.println(chooseKeepData);
+            }
+        }
+    }
+
     public void start() {
         Scanner sc = new Scanner(System.in);
         String startMenu = """
@@ -51,6 +84,8 @@ public class RoomBookingUI {
             }
         }
     }
+
+
 
     private void uiLogin() {
         Scanner sc = new Scanner(System.in);
