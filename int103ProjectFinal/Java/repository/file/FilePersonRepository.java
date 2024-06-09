@@ -1,5 +1,6 @@
 package repository.file;
 
+import domain.Payment;
 import repository.*;
 
 import domain.Person;
@@ -36,6 +37,18 @@ public class FilePersonRepository implements PersonRepository {
         } else {
             nextPersonId = 1;
             repo = new TreeMap<>();
+            writeFile();
+        }
+    }
+
+    private void writeFile() {
+        try(FileOutputStream fo = new FileOutputStream(filename);
+            BufferedOutputStream bo = new BufferedOutputStream(fo);
+            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
+            oo.writeLong(nextPersonId);
+            oo.writeObject(repo);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

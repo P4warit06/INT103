@@ -77,4 +77,3 @@ public class InMemoryReservationRepository implements ReservationRepository {
     @Override
     public Stream<Reservation> stream() { return repo.values().stream(); }
 }
-
