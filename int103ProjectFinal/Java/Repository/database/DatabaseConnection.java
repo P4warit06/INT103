@@ -15,7 +15,7 @@ public class DatabaseConnection {
 //        Wee's MySQL
         String url = "jdbc:mysql://127.0.0.1:3306/login_schema";
         String username = "root";
-        String password = "mysql";
+        String password = "root";
         Connection connection = null;
 
         try {

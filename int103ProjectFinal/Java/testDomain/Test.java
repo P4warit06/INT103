@@ -6,8 +6,7 @@ import repository.memory.InMemoryPaymentRepository;
 import repository.memory.InMemoryPersonRepository;
 import repository.memory.InMemoryRoomRepository;
 import service.*;
-import ui.ChooseDataKeeper;
-import ui.RoomBookingUIFromMemory;
+import ui.RoomBookingUI;
 
 import java.time.LocalDate;
 
@@ -18,31 +17,28 @@ public class Test {
 //        testRoom();
 //        testPayment();
 //        testReservation();
-//        testServiceFromMemory();
-        Service fromMemory = new Service(
+        testService();
+        Service service = new Service(
                 new InMemoryPaymentRepository(),
                 new InMemoryPersonRepository(),
                 new InMemoryReservationRepository(),
                 new InMemoryRoomRepository()
         );
-        initialRoom(fromMemory);
-        initialPerson(fromMemory);
-//        testui(fromMemory);
+        initialRoom(service);
+        initialPersonal(service);
+        testui(service);
 
-    testChooseDataKeeper(fromMemory);
-
-    }
-
-    private static void testChooseDataKeeper(Service fromMemory) {
-        System.out.println("### Test Choose Data Keeper ###");
-        ChooseDataKeeper keeper = new ChooseDataKeeper(fromMemory);
-        keeper.uiChooseDataKeeper();
     }
 
     private static void testui(Service service) {
+
         System.out.println("++++++++ Test UI ++++++++");
-        RoomBookingUIFromMemory ui = new RoomBookingUIFromMemory(service);
+        // Create the UI instance
+        RoomBookingUI ui = new RoomBookingUI(false, service);
+        // Start the UI
         ui.start();
+        // Test the UI methods
+        // ...
         System.out.println("++++++++ End Test UI ++++++++");
     }
 
@@ -53,7 +49,7 @@ public class Test {
         System.out.println("## Check Room 7##" + service.checkRoomAvailable(obj2.getRoomNumber()));
     }
 
-    private static void initialPerson(Service service){
+    private static void initialPersonal(Service service){
         service.registerPerson("Ohm", "ohm.chonburi@mail.kmutt.ac.th", "1150");
         service.registerPerson("wee", "vee.minburi@mail.kmutt.ac.th", "191");
         service.registerPerson("Smark", "smark.Sakhon@mail.kmutt.ac.th", "monkey");
@@ -165,7 +161,7 @@ public class Test {
 
     }
 
-    public static void testServiceFromMemory(){
+    public static void testService(){
         System.out.println("++++++++ Test Service ++++++++");
         // Create the service instance
         Service service = null;

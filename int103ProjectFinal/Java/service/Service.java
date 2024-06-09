@@ -2,10 +2,13 @@ package service;
 
 import domain.*;
 import repository.*;
+import repository.memory.InMemoryPersonRepository;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Service {
     private final PaymentRepository paymentRepo;
@@ -51,24 +54,7 @@ public class Service {
     }
 
     public Reservation createRoomReservation(Person person, Room room) {
-        if(!room.isAvailable()){
-            System.out.println("Room is not available");
-            return null;
-        }
-        if(person.getBalance() < room.getPrice()){
-            System.out.println("Insufficient balance");
-            return null;
-        }
-        Reservation reservation = reservationRepo.createReservation(person, room);
-        if(reservation != null) {
-            room.setAvailable(false);
-            roomRepo.updateRoom(room);
-
-            person.setBalance(person.getBalance() - room.getPrice());
-            personRepo.updatePerson(person);
-        }
-
-        return reservation;
+        return reservationRepo.createReservation(person, room);
     }
 
     public void registerPerson(String name, String email, String password)  {
