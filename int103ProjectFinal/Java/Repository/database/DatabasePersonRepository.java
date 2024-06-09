@@ -96,13 +96,17 @@ public class DatabasePersonRepository implements PersonRepository {
     public boolean updatePerson(Person person,String id) {
         if (person == null) return false;
         Connection con = DatabaseConnection.connect();
-        String sql = "UPDATE person SET name = ?, email = ?, password = ? WHERE personID = ?";
+        String sql = "UPDATE person SET name = ?, email = ?, password = ? ";
         try {
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1,person.getName());
             preparedStatement.setString(2,person.getEmail());
             preparedStatement.setString(3,person.getPassword());
+<<<<<<< Updated upstream
             preparedStatement.setString(4,id);
+=======
+//            preparedStatement.setString(4, person.getPersonId());
+>>>>>>> Stashed changes
             preparedStatement.executeUpdate();
             repo.replace(person.getPersonId(), person);
             return true;
