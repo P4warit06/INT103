@@ -5,10 +5,7 @@ import domain.Payment;
 import domain.Person;
 import domain.Reservation;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -35,6 +32,18 @@ public class FilePaymentRepository implements PaymentRepository {
         } else {
             nextPaymentId = 1;
             repo = new TreeMap<>();
+            writeFile();
+        }
+    }
+
+    private void writeFile() {
+        try(FileOutputStream fo = new FileOutputStream(filename);
+            BufferedOutputStream bo = new BufferedOutputStream(fo);
+            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
+            oo.writeLong(nextPaymentId);
+            oo.writeObject(repo);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -57,8 +66,7 @@ public class FilePaymentRepository implements PaymentRepository {
     @Override
     public boolean updatePayment(Payment payment) {
         if (payment == null) return false;
-        repo.replace(payment.getPaymentId(), payment);
-        return true;
+        return false;
     }
 
     @Override

@@ -114,7 +114,6 @@ public class DatabasePersonRepository implements PersonRepository {
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return false;
     }
 

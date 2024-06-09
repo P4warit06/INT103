@@ -12,8 +12,8 @@ public interface ReservationRepository  {
     Reservation createReservation(Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate);
     Reservation createReservation(Person person, Room room);
     Reservation retrieveReservation(String number);
-    boolean updateReservation(Reservation reservation,String id);
-    boolean deleteReservation(Reservation reservation,String id);
+    boolean updateReservation(Reservation reservation);
+    boolean deleteReservation(Reservation reservation);
     public Stream<Reservation> stream();
     List<Reservation> getReservation(String personalId);
 }
