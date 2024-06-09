@@ -1,6 +1,5 @@
 package repository.file;
 
-import domain.Payment;
 import repository.*;
 
 import domain.Person;
@@ -52,22 +51,22 @@ public class FilePersonRepository implements PersonRepository {
         }
     }
 
-    @Override
-    public Person createPerson(String name, String email, String password) {
-        if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank())
-            return null;
-        String personId = "PersonId: " + nextPersonId++;
-        if (repo.containsKey(personId)) return null;
-        Person person = new Person(personId, name, email, password, 20000.00);
-        repo.put(personId, person);
-        return person;
-    }
+        @Override
+        public Person createPerson(String name, String email, String password) {
+            if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank())
+                return null;
+            String personId = "PersonId: " + nextPersonId++;
+            if (repo.containsKey(personId)) return null;
+            Person person = new Person(personId, name, email, password);
+            repo.put(personId, person);
+            return person;
+        }
 
-    @Override
-    public Person retrievePerson(String id) {
-        if (id == null || id.isBlank()) return null;
-        return repo.get(id);
-    }
+        @Override
+        public Person retrievePerson(String id) {
+            if (id == null || id.isBlank()) return null;
+            return repo.get(id);
+        }
 
     @Override
     public Person loginPerson(String email, String password) {
@@ -87,17 +86,17 @@ public class FilePersonRepository implements PersonRepository {
         return true;
     }
 
-    @Override
-    public boolean deletePerson(Person person) {
-        if (person == null) return false;
-        repo.remove(person.getPersonId(), person);
-        return true;
-    }
+        @Override
+        public boolean deletePerson(Person person) {
+            if (person == null) return false;
+            repo.remove(person.getPersonId(), person);
+            return true;
+        }
 
-    @Override
-    public Stream<Person> stream() {
-        return repo.values()
-                .stream()
-                .filter(Objects::nonNull);
+        @Override
+        public Stream<Person> stream() {
+            return repo.values()
+                    .stream()
+                    .filter(Objects::nonNull);
+        }
     }
-}
