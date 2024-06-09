@@ -1,7 +1,7 @@
 package domain;
 
 import exception.InvalidPersonFormatException;
-import exception.InvalidRoomFormatException;
+
 import java.io.Serializable;
 public class Person implements Comparable<Person>, Serializable {
     private final String personId;

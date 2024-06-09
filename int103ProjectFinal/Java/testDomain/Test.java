@@ -6,7 +6,8 @@ import repository.memory.InMemoryPaymentRepository;
 import repository.memory.InMemoryPersonRepository;
 import repository.memory.InMemoryRoomRepository;
 import service.*;
-import ui.RoomBookingUI;
+import ui.ChooseDataKeeper;
+import ui.RoomBookingUIFromMemory;
 
 import java.time.LocalDate;
 
@@ -17,39 +18,43 @@ public class Test {
 //        testRoom();
 //        testPayment();
 //        testReservation();
-        testService();
-        Service service = new Service(
+//        testServiceFromMemory();
+        Service fromMemory = new Service(
                 new InMemoryPaymentRepository(),
                 new InMemoryPersonRepository(),
                 new InMemoryReservationRepository(),
                 new InMemoryRoomRepository()
         );
-        initialRoom(service);
-        initialPersonal(service);
-        testui(service);
+        initialRoom(fromMemory);
+        initialPerson(fromMemory);
+//        testui(fromMemory);
+
+    testChooseDataKeeper(fromMemory);
 
     }
 
-    private static void testui(Service service) {
+    private static void testChooseDataKeeper(Service fromMemory) {
+        System.out.println("### Test Choose Data Keeper ###");
+        ChooseDataKeeper keeper = new ChooseDataKeeper(fromMemory);
+        keeper.uiChooseDataKeeper();
+    }
 
+    private static void testui(Service service) {
         System.out.println("++++++++ Test UI ++++++++");
-        // Create the UI instance
-        RoomBookingUI ui = new RoomBookingUI(false, service);
-        // Start the UI
+        RoomBookingUIFromMemory ui = new RoomBookingUIFromMemory(service);
         ui.start();
-        // Test the UI methods
-        // ...
         System.out.println("++++++++ End Test UI ++++++++");
     }
 
     private static void initialRoom(Service service){
-        var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
-        var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
-        System.out.println("## Check Room 6##" + service.checkRoomAvailable(obj1.getRoomNumber()));
-        System.out.println("## Check Room 7##" + service.checkRoomAvailable(obj2.getRoomNumber()));
+        var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 4000.00);
+        var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 4000.00);
+        var obj3 = service.createRoom("airConditional, Big", "5 people", "have", 3500.00);
+        var obj4 = service.createRoom("airConditional, Medium", "4 people", "have", 3000.00);
+        var obj5 = service.createRoom("airConditional, Small", "3 people", "have", 2800.00);
     }
 
-    private static void initialPersonal(Service service){
+    private static void initialPerson(Service service){
         service.registerPerson("Ohm", "ohm.chonburi@mail.kmutt.ac.th", "1150");
         service.registerPerson("wee", "vee.minburi@mail.kmutt.ac.th", "191");
         service.registerPerson("Smark", "smark.Sakhon@mail.kmutt.ac.th", "monkey");
@@ -161,7 +166,7 @@ public class Test {
 
     }
 
-    public static void testService(){
+    public static void testServiceFromMemory(){
         System.out.println("++++++++ Test Service ++++++++");
         // Create the service instance
         Service service = null;

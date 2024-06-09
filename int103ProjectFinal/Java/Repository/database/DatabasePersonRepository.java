@@ -19,23 +19,27 @@ public class DatabasePersonRepository implements PersonRepository {
     @Override
     public Person createPerson(String name, String email, String password)  {
         if (name == null || email == null || password == null||name.isBlank() || email.isBlank() || password.isBlank()) return null;
-        String personId = "PersonId: " + nextPersonId;
-        if (repo.containsKey(personId)) return null;
+
         Connection con = DatabaseConnection.connect();
-        String sql = "insert into person(personID,name,email,password,balance) values(?,?,?,?,?)";
+        String sql = "insert into person(name,email,password,balance) values(?,?,?,?)";
+        String personalId = null;
         try {
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setLong(1,nextPersonId);
-            preparedStatement.setString(2,name);
-            preparedStatement.setString(3,email);
-            preparedStatement.setString(4,password);
-            preparedStatement.setInt(5,20000);
+            PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,email);
+            preparedStatement.setString(3,password);
+            preparedStatement.setInt(4,20000);
             preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            while (rs.next()) {
+                int newId = rs.getInt(1);
+                personalId = String.valueOf(newId);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Person person = new Person(personId, name, email, password, 20000.00);
-        repo.put(personId, person);
+        Person person = new Person(personalId, name, email, password, 20000.00);
+        repo.put(personalId, person);
         nextPersonId++;
         return person;
     }
@@ -68,6 +72,7 @@ public class DatabasePersonRepository implements PersonRepository {
         if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
         Connection con = DatabaseConnection.connect();
         String sql = "SELECT * FROM person WHERE email = ? AND password = ?";
+        Person person = null;
         try {
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, email);
@@ -80,29 +85,28 @@ public class DatabasePersonRepository implements PersonRepository {
                         + " " + results.getString(4)
                         + " " + results.getString(5)
                 );
+                person = new Person(results.getString(1), results.getString(2),
+                        results.getString(3), results.getString(4),
+                        results.getDouble(5));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (Person person : repo.values()) {
-            if (person.getEmail().equals(email) && person.getPassword().equals(password)) {
-                return person;
-            }
-        }
-        return null;
+        return person;
     }
     @Override
     public boolean updatePerson(Person person) {
         if (person == null) return false;
         Connection con = DatabaseConnection.connect();
-        String sql = "UPDATE person SET name = ?, email = ?, password = ? ";
+        String sql = "UPDATE person SET name = ?, email = ?, password = ?, balance = ? where personID = ? ";
         try {
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1,person.getName());
             preparedStatement.setString(2,person.getEmail());
             preparedStatement.setString(3,person.getPassword());
+            preparedStatement.setDouble(4,person.getBalance());
+            preparedStatement.setInt(5, Integer.parseInt(person.getPersonId()));
             preparedStatement.executeUpdate();
-            repo.replace(person.getPersonId(), person);
             return true;
 
         } catch (SQLException ex) {
