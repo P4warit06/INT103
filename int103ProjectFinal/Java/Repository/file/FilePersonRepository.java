@@ -57,7 +57,7 @@ public class FilePersonRepository implements PersonRepository {
         }
 
     @Override
-    public Person loginPerson(String email, String password){
+    public Person loginPerson(String email, String password) {
         if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
         for (Person person : repo.values()) {
             if (person.getEmail().equals(email) && person.getPassword().equals(password)) {

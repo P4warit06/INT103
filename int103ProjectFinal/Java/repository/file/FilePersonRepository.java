@@ -45,7 +45,7 @@ public class FilePersonRepository implements PersonRepository {
                 return null;
             String personId = "PersonId: " + nextPersonId++;
             if (repo.containsKey(personId)) return null;
-            Person person = new Person(personId, name, email, password);
+            Person person = new Person(personId, name, email, password, 20000);
             repo.put(personId, person);
             return person;
         }
