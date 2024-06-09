@@ -5,6 +5,7 @@ import domain.Room;
 import repository.RoomRepository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -48,22 +49,19 @@ public class DatabaseRoomRepository implements RoomRepository {
         if (roomNumber == null || roomNumber.isBlank()) return null;
         Connection con = DatabaseConnection.connect();
         String sql = "SELECT * FROM room WHERE roomNumber = ?";
+        Room room = null;
         try {
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, roomNumber);
+            statement.setInt(1, Integer.parseInt(roomNumber));
             ResultSet results = statement.executeQuery();
             while(results.next()) {
-                System.out.println(results.getString(1)
-                        + " " + results.getString(2)
-                        + " " + results.getString(3)
-                        + " " + results.getString(4)
-                        + " " + results.getString(5)
-                );
+                room = new Room(results.getString(1), results.getString(2), results.getString(3), results.getString(4), results.getDouble(6));
+                room.setAvailable(results.getBoolean(5));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return repo.get(roomNumber);
+        return room;
     }
 
     @Override
@@ -73,30 +71,34 @@ public class DatabaseRoomRepository implements RoomRepository {
         try {
             Statement statement = con.createStatement();
             ResultSet results = statement.executeQuery(sql);
-            results.next();
+            Map<String, Room> roomMap = new HashMap<>();
+            while (results.next()) {
+                Room room = new Room(results.getString(1), results.getString(2), results.getString(3), results.getString(4), results.getDouble(6));
+                room.setAvailable(results.getBoolean(5));
+                roomMap.put(room.getRoomNumber(), room);
+            }
+            return roomMap;
+
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Map<String, Room> roomMap = new HashMap<>();
-        for (Room room : repo.values()) {
-            roomMap.put(room.getRoomNumber(), room);
-        }
-        return roomMap;
+        return null;
     }
 
     @Override
     public boolean updateRoom(Room room) {
         if (room == null) return false;
         Connection con = DatabaseConnection.connect();
-        String sql = "UPDATE room SET tyoe = ?, capacity = ?, amenities = ? , price = ?";
+        String sql = "UPDATE room SET type = ?, capacity = ?, amenities = ? , price = ?, available = ? WHERE roomNumber = ?";
         try {
-            int affectedRows = 0;
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1,room.getType());
             preparedStatement.setString(2,room.getCapacity());
             preparedStatement.setString(3,room.getAmenities());
+            preparedStatement.setDouble(4,room.getPrice());
+            preparedStatement.setBoolean(5,room.isAvailable());
+            preparedStatement.setString(6,room.getRoomNumber());
             preparedStatement.executeUpdate();
-            repo.replace(room.getRoomNumber(), room);
             return true;
 
         } catch (SQLException ex) {

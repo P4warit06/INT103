@@ -6,11 +6,9 @@ import domain.Room;
 import repository.ReservationRepository;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -50,44 +48,66 @@ public class DatabaseReservationRepository implements ReservationRepository {
     @Override
     public Reservation createReservation(Person person, Room room) {
         if (person == null || room == null) return null;
-        String reservationId = "ReservationID: " + nextReservationId;
-        if (repo.containsKey(reservationId)) return null;
+        String reservationId ="";
         Connection con = DatabaseConnection.connect();
-        String sql = "insert into reservation(reservationID,personID,roomID,status) values(?,?,?,?,?,?)";
+        String sql = "insert into reservation(personID,roomID) values(?,?)";
         try {
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setLong(1,nextReservationId);
-            preparedStatement.setString(2, person.getPersonId());
-            preparedStatement.setString(3,room.getRoomNumber());
-            preparedStatement.setBoolean(4,false);
+            PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, person.getPersonId());
+            preparedStatement.setString(2,room.getRoomNumber());
             preparedStatement.executeUpdate();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            while (rs.next()) {
+                int newId = rs.getInt(1);
+                reservationId = String.valueOf(newId);
+            }
+
+
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-        person.setBalance(person.getBalance() - room.getPrice());
-        room.setAvailable(false);
         Reservation reservation = new Reservation(reservationId, person, room);
-        repo.put(reservationId,reservation);
-        nextReservationId++;
         return reservation;
     }
 
     @Override
     public Reservation retrieveReservation(String number) {
-        if (number==null||number.isBlank()) return null;
-        Connection con = DatabaseConnection.connect();
-        String sql = "SELECT * FROM reservation WHERE reservationID = ?";
         try {
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, number);
-            ResultSet results = statement.executeQuery();
+            Connection con = DatabaseConnection.connect();
+            String sql = "SELECT * FROM reservation WHERE reservationID = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, Integer.parseInt(number));
+            ResultSet results = preparedStatement.executeQuery();
             while(results.next()) {
-                System.out.println(results.getString(1)
-                        + " " + results.getString(2)
-                        + " " + results.getString(3)
-                        + " " + results.getString(4)
-                        + " " + results.getString(5)
-                );
+                String sqlPersonal = "SELECT * FROM person WHERE personID = ?";
+                PreparedStatement preparedStatementPerson = con.prepareStatement(sqlPersonal);
+                preparedStatementPerson.setInt(1, results.getInt(2));
+                ResultSet resultsPerson = preparedStatementPerson.executeQuery();
+                Person person = null;
+                while(resultsPerson.next()) {
+                    person = new Person(resultsPerson.getString(1), resultsPerson.getString(2),
+                            resultsPerson.getString(3), resultsPerson.getString(4),
+                            resultsPerson.getDouble(5));
+                }
+                
+                String sqlRoom = "SELECT * FROM room WHERE roomNumber = ?";
+                PreparedStatement preparedStatementRoom = con.prepareStatement(sqlRoom);
+                preparedStatementRoom.setInt(1, results.getInt(3));
+                ResultSet resultsRoom = preparedStatementRoom.executeQuery();
+                Room room = null;
+                while(resultsRoom.next()) {
+                    room = new Room(resultsRoom.getString(1), resultsRoom.getString(2),
+                            resultsRoom.getString(3), resultsRoom.getString(4),
+                            resultsRoom.getDouble(6));
+                    room.setAvailable(resultsRoom.getBoolean(5));
+
+                }
+                Reservation reservation = new Reservation(
+                        results.getString(1),
+                        person,
+                        room);
+                reservations.add(reservation);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
@@ -148,20 +168,47 @@ public class DatabaseReservationRepository implements ReservationRepository {
 
     @Override
     public List<Reservation> getReservation(String personalId) {
-        Collection<Reservation> values = repo.values();
-        Connection con = DatabaseConnection.connect();
-        String sql = "SELECT * FROM reservations WHERE personID = ?";
+        List<Reservation> reservations = new ArrayList<>();
         try {
+            Connection con = DatabaseConnection.connect();
+            String sql = "SELECT * FROM reservation WHERE personID = ?";
+            String sqlPersonal = "SELECT * FROM person WHERE personID = ?";
+            PreparedStatement preparedStatementPerson = con.prepareStatement(sqlPersonal);
+            preparedStatementPerson.setInt(1, Integer.parseInt(personalId));
+            ResultSet resultsPerson = preparedStatementPerson.executeQuery();
+            Person person = null;
+            while(resultsPerson.next()) {
+                person = new Person(resultsPerson.getString(1), resultsPerson.getString(2),
+                        resultsPerson.getString(3), resultsPerson.getString(4),
+                        resultsPerson.getDouble(5));
+            }
             PreparedStatement preparedStatement = con.prepareStatement(sql);
-            Statement statement = con.createStatement();
-            preparedStatement.setString(1,personalId);
+            preparedStatement.setInt(1, Integer.parseInt(personalId));
             ResultSet results = preparedStatement.executeQuery();
-            results.next();
+            while(results.next()) {
+
+                String sqlRoom = "SELECT * FROM room WHERE roomNumber = ?";
+                PreparedStatement preparedStatementRoom = con.prepareStatement(sqlRoom);
+                preparedStatementRoom.setInt(1, results.getInt(3));
+                ResultSet resultsRoom = preparedStatementRoom.executeQuery();
+                Room room = null;
+                while(resultsRoom.next()) {
+                    room = new Room(resultsRoom.getString(1), resultsRoom.getString(2),
+                            resultsRoom.getString(3), resultsRoom.getString(4),
+                            resultsRoom.getDouble(6));
+                    room.setAvailable(resultsRoom.getBoolean(5));
+
+                }
+                Reservation reservation = new Reservation(
+                        results.getString(1),
+                        person,
+                        room);
+                reservations.add(reservation);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return values.stream()
-                .filter(r -> r.getPerson().getPersonId().equals(personalId))
-                .collect(Collectors.toList());
+        return reservations;
     }
 }

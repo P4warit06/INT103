@@ -1,7 +1,6 @@
 package ui;
 
 import domain.Person;
-
 import domain.Reservation;
 import domain.Room;
 import service.Service;
@@ -9,13 +8,12 @@ import service.Service;
 import java.io.Console;
 import java.util.Scanner;
 
-public class RoomBookingUI {
-    private final Service service;
+public class RoomBookingUIFromDatabase {
+    private final Service keepFromDatabaseService;
     private Person customerPerson;
 
-    public RoomBookingUI(boolean fromFile, Service serviceStart) {
-        /*if fromFile is true , load/save Person into file*/
-        service = serviceStart;
+    public RoomBookingUIFromDatabase(Service fromDatabase) {
+        this.keepFromDatabaseService = fromDatabase;
     }
 
     public void start() {
@@ -26,8 +24,7 @@ public class RoomBookingUI {
                 1. Yes, bring me to login.
                 2. No, I want to create an account.
                 3. Exit
-                your choice is [1-3] :
-                """;
+                your choice is [1-3]: """;
         System.out.print(startMenu);
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -42,8 +39,10 @@ public class RoomBookingUI {
                 switch (i) {
                     case 1 -> uiLogin();
                     case 2 -> uiRegisterPerson();
-                    case 3 ->  System.out.println("Exit");
-
+                    case 3 -> { System.out.println("Exit");
+                        System.out.println("Bye!");
+                        System.exit(0);
+                    }
                 }
                 break;
             } else {
@@ -57,12 +56,10 @@ public class RoomBookingUI {
         Console c = System.console();
 
         String LoginMenu = """
-
                 Do you want to Login?
                 1. Login!
                 2. No, back to start menu.
-                your choice is [1-2] :
-                """;
+                your choice is [1-2]: """;
         System.out.print(LoginMenu);
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -80,7 +77,7 @@ public class RoomBookingUI {
                         String email = sc.nextLine();
                         System.out.println("Enter your password: ");
                         String password = sc.nextLine();
-                        customerPerson = service.getLoginPerson(email, password);
+                        customerPerson = keepFromDatabaseService.getLoginPerson(email, password);
                         if (customerPerson == null) {
                             System.out.println("Login Failed");
                             start();
@@ -127,7 +124,7 @@ public class RoomBookingUI {
         if (sc.nextLine().equals("y")) {
             System.out.printf("You type: [%s]%n", password);
         }
-        service.registerPerson(name, email, password);
+        keepFromDatabaseService.registerPerson(name, email, password);
         System.out.println("Register Successfully!");
         start();
     }
@@ -190,7 +187,7 @@ public class RoomBookingUI {
     }
 
     private void uiListAllRooms() {
-        var rooms = service.getAllRooms();
+        var rooms = keepFromDatabaseService.getAllRooms();
         for (var roomMap : rooms.entrySet()) {
             var room = roomMap.getValue();
             System.out.print("Room Number [" + room.getRoomNumber());
@@ -230,7 +227,7 @@ public class RoomBookingUI {
                         if (checkLogin()) {
                             start();
                         }
-                        Room room = service.getRoom(roomNumber);
+                        Room room = keepFromDatabaseService.getRoom(roomNumber);
                         if (room == null) {
                             System.out.println("room " + roomNumber + " not found");
                             uiMakeReservation();
@@ -239,8 +236,9 @@ public class RoomBookingUI {
                             uiMakeReservation();
                         }
 
-                        Reservation reservation = service.createRoomReservation(customerPerson, room);
+                        Reservation reservation = keepFromDatabaseService.createRoomReservation(customerPerson, room);
                         if(reservation != null){
+                            customerPerson = reservation.getPerson();
                             System.out.println("Reservation made successfully!");
                             System.out.println("your reservation id is " + reservation.getReservationID());
                         }
@@ -278,7 +276,7 @@ public class RoomBookingUI {
                 switch (i) {
                     case 1 -> {
                         System.out.println("List all your reservations...");
-                        var myReservation = service.getMyReservation(customerPerson.getPersonId());
+                        var myReservation = keepFromDatabaseService.getMyReservation(customerPerson.getPersonId());
                         for (var reservation : myReservation) {
 
                             System.out.print("Reservation ID [" + reservation.getReservationID());
@@ -319,7 +317,7 @@ public class RoomBookingUI {
                         //Cancel a reservation
                         System.out.println("Enter reservation ID you want to cancel: ");
                         String reservationID = sc.nextLine();
-                        Reservation reservation = service.getReservationById(reservationID);
+                        Reservation reservation = keepFromDatabaseService.getReservationById(reservationID);
                         if(reservation == null){
                             System.out.println("reservation id "+ reservationID + " not found");
                             uiCancelReservation();
@@ -329,7 +327,7 @@ public class RoomBookingUI {
                             System.out.println("reservation id "+ reservationID + " not found");
                             uiCancelReservation();
                         }
-                        service.cancelReservation(reservation, customerPerson);
+                        keepFromDatabaseService.cancelReservation(reservation, customerPerson);
                         uiViewMenu();
                         break;
                     case 2:
