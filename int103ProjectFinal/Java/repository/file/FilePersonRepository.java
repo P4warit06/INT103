@@ -45,7 +45,7 @@ public class FilePersonRepository implements PersonRepository {
                 return null;
             String personId = "PersonId: " + nextPersonId++;
             if (repo.containsKey(personId)) return null;
-            Person person = new Person(personId, name, email, password, 20000);
+            Person person = new Person(personId, name, email, password);
             repo.put(personId, person);
             return person;
         }
@@ -57,7 +57,7 @@ public class FilePersonRepository implements PersonRepository {
         }
 
     @Override
-    public Person loginPerson(String email, String password){
+    public Person loginPerson(String email, String password) {
         if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
         for (Person person : repo.values()) {
             if (person.getEmail().equals(email) && person.getPassword().equals(password)) {
