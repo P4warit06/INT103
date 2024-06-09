@@ -21,7 +21,7 @@ public class DatabaseRoomRepository implements RoomRepository {
     public Room createRoom(String type, String capacity, String amenities, double price) {
         if ( type == null || type.isBlank() || capacity == null
                 || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0) return null;
-        String roomId = "PersonId: " + NextRoomId;
+        String roomId = "RoomNumber: " + NextRoomId;
         if (repo.containsKey(roomId)) return null;
         Connection con = DatabaseConnection.connect();
         String sql = "insert into room(roomNumber,type,capacity,amenities,available,price) values(?,?,?,?,?,?)";
