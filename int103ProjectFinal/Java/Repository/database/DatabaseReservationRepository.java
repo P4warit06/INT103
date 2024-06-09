@@ -73,6 +73,7 @@ public class DatabaseReservationRepository implements ReservationRepository {
 
     @Override
     public Reservation retrieveReservation(String number) {
+        Reservation reservation = null;
         try {
             Connection con = DatabaseConnection.connect();
             String sql = "SELECT * FROM reservation WHERE reservationID = ?";
@@ -103,16 +104,15 @@ public class DatabaseReservationRepository implements ReservationRepository {
                     room.setAvailable(resultsRoom.getBoolean(5));
 
                 }
-                Reservation reservation = new Reservation(
+                reservation = new Reservation(
                         results.getString(1),
                         person,
                         room);
-                reservations.add(reservation);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return repo.get(number);
+        return reservation;
     }
 
     @Override

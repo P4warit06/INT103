@@ -39,11 +39,6 @@ public class ChooseDataKeeper {
                 int i = ans.nextInt();
                 switch (i) {
                     case 1 -> {
-                    dataKeeperService = new Service(new InMemoryPaymentRepository(),
-                            new InMemoryPersonRepository(),
-                            new InMemoryReservationRepository(),
-                            new InMemoryRoomRepository()
-                            );
                     var roomBookingUIFromMemory = new RoomBookingUIFromMemory(dataKeeperService);
                     roomBookingUIFromMemory.start();
                     }

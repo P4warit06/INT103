@@ -47,10 +47,11 @@ public class Test {
     }
 
     private static void initialRoom(Service service){
-        var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
-        var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 18000.00);
-        System.out.println("## Check Room 6##" + service.checkRoomAvailable(obj1.getRoomNumber()));
-        System.out.println("## Check Room 7##" + service.checkRoomAvailable(obj2.getRoomNumber()));
+        var obj1 = service.createRoom("airConditional, SuperBig", "6 people", "have", 4000.00);
+        var obj2 = service.createRoom("airConditional, SuperBig", "6 people", "have", 4000.00);
+        var obj3 = service.createRoom("airConditional, Big", "5 people", "have", 3500.00);
+        var obj4 = service.createRoom("airConditional, Medium", "4 people", "have", 3000.00);
+        var obj5 = service.createRoom("airConditional, Small", "3 people", "have", 2800.00);
     }
 
     private static void initialPerson(Service service){

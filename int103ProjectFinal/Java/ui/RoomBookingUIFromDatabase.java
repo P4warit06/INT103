@@ -327,7 +327,9 @@ public class RoomBookingUIFromDatabase {
                             System.out.println("reservation id "+ reservationID + " not found");
                             uiCancelReservation();
                         }
-                        keepFromDatabaseService.cancelReservation(reservation, customerPerson);
+                        keepFromDatabaseService.cancelReservation(reservation, reservation.getPerson());
+                        customerPerson = reservation.getPerson();
+                        System.out.println("Reservation canceled successfully!");
                         uiViewMenu();
                         break;
                     case 2:
