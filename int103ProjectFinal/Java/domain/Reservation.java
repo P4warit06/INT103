@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import domain.*;
 
 public class Reservation implements Serializable {
-    private final String reservationID;
+    private final String reservationId;
     private Person person;
     private Room room;
     private Room status;
@@ -18,7 +18,7 @@ public class Reservation implements Serializable {
     private LocalDate checkOutDate;
 
     public Reservation(String reservationID, Person person, Room room) {
-        this.reservationID = reservationID;
+        this.reservationId = reservationID;
         this.person = person;
         this.room = room;
         this.checkInDate = LocalDate.of(2024,6,6);
@@ -27,7 +27,7 @@ public class Reservation implements Serializable {
 
     public Reservation(String reservationID, Person person, Room room, Room status, LocalDate checkInDate, LocalDate checkOutDate) {
         if (reservationID == null || reservationID.isBlank() || person == null || room == null || status == null || !status.isAvailable()) throw new InvalidReservationFormatException();
-        this.reservationID = reservationID;
+        this.reservationId = reservationID;
         this.person = person;
         this.room = room;
         status.setAvailable(false);
@@ -36,7 +36,7 @@ public class Reservation implements Serializable {
     }
 
     public String getReservationID() {
-        return reservationID;
+        return reservationId;
     }
 
     public Person getPerson() {
