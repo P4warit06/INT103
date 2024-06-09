@@ -9,17 +9,7 @@ public class TestDatabase {
         PersonRepository repository = new DatabasePersonRepository();
         System.out.println("Create Person ------------------------------------------");
         Person newPerson = repository.createPerson("John Doe", "john.doe@example.com", "password123");
-        System.out.println("Created person: " + newPerson);
-        Person newPerson2 = repository.createPerson("Johns Doe", "johns.doe@example.com", "password1234");
-        System.out.println("Created person: " + newPerson2);
-        Person newPerson3 = repository.createPerson("Dohn Doe", "dohn.doe@example.com", "password12345");
-        System.out.println("Created person: " + newPerson);
-        Person newPerson4 = repository.createPerson("Johns Joe", "johns.joe@example.com", "password123456");
-        System.out.println("Created person: " + newPerson2);
-        Person newPerson5= repository.createPerson("Dohns Doe", "dohns.doe@example.com", "password123567");
-        System.out.println("Created person: " + newPerson);
-        Person newPerson6 = repository.createPerson("Johns DoeS", "johns.does@example.com", "password12345678");
-        System.out.println("Created person: " + newPerson2);
+
         System.out.println("");
 
         System.out.println("Retrieve Person --------------------------------------------------------");
