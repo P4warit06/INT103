@@ -101,7 +101,6 @@ public class DatabasePersonRepository implements PersonRepository {
             preparedStatement.setString(1,person.getName());
             preparedStatement.setString(2,person.getEmail());
             preparedStatement.setString(3,person.getPassword());
-            preparedStatement.setString(4, person.getPersonId());
             preparedStatement.executeUpdate();
             repo.replace(person.getPersonId(), person);
             return true;

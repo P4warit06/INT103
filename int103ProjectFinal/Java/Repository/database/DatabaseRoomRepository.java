@@ -95,7 +95,6 @@ public class DatabaseRoomRepository implements RoomRepository {
             preparedStatement.setString(1,room.getType());
             preparedStatement.setString(2,room.getCapacity());
             preparedStatement.setString(3,room.getAmenities());
-            preparedStatement.setDouble(4,room.getPrice());
             preparedStatement.executeUpdate();
             repo.replace(room.getRoomNumber(), room);
             return true;
