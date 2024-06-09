@@ -12,6 +12,5 @@ public interface PersonRepository {
     boolean updatePerson(Person person);
     boolean deletePerson (Person person) ;
     Stream<Person> stream();
-
 }
 

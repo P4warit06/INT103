@@ -6,10 +6,7 @@ import domain.Person;
 import domain.Reservation;
 import domain.Room;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +33,18 @@ public class FileReservationRepository implements ReservationRepository {
         } else {
             nextReservationId = 1;
             repo = new TreeMap<>();
+            writeFile();
+        }
+    }
+
+    private void writeFile() {
+        try(FileOutputStream fo = new FileOutputStream(filename);
+            BufferedOutputStream bo = new BufferedOutputStream(fo);
+            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
+            oo.writeLong(nextReservationId);
+            oo.writeObject(repo);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
