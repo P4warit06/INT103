@@ -79,6 +79,6 @@ public class Reservation implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Reservation: (reservationID: %s, person: %s, room: %s, status: %s, checkInDate: %s, checkOutDate: %s)", reservationID, person, room, status, checkInDate, checkOutDate);
+        return String.format("Reservation: (reservationID: %s, person: %s, room: %s, status: %s, checkInDate: %s, checkOutDate: %s)", reservationId, person, room, status, checkInDate, checkOutDate);
     }
 }
