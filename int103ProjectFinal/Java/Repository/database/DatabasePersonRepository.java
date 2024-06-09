@@ -93,17 +93,16 @@ public class DatabasePersonRepository implements PersonRepository {
     }
 
     @Override
-    public boolean updatePerson(Person person) {
+    public boolean updatePerson(Person person,String id) {
         if (person == null) return false;
         Connection con = DatabaseConnection.connect();
         String sql = "UPDATE person SET name = ?, email = ?, password = ? WHERE personID = ?";
         try {
-            int affectedRows = 0;
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1,person.getName());
             preparedStatement.setString(2,person.getEmail());
             preparedStatement.setString(3,person.getPassword());
-            preparedStatement.setString(4, person.getPersonId());
+            preparedStatement.setString(4,id);
             preparedStatement.executeUpdate();
             repo.replace(person.getPersonId(), person);
             return true;
@@ -116,13 +115,13 @@ public class DatabasePersonRepository implements PersonRepository {
     }
 
     @Override
-    public boolean deletePerson(Person person) {
+    public boolean deletePerson(Person person,String id) {
         if (person  == null) return false;
         Connection con = DatabaseConnection.connect();
         String sql = "DELETE FROM person WHERE personID = ?";
         try {
             PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1,person.getPersonId());
+            preparedStatement.setString(1,id);
             preparedStatement.executeUpdate();
             return repo.remove(person.getPersonId() , person) ;
         } catch (SQLException ex) {
