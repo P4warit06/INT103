@@ -16,40 +16,28 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 public class FilePersonRepository implements PersonRepository {
-    private String filename = "person.dat";
-    private long nextPersonId = 0;
-    private Map<String, Person> repo;
+        private String filename = "person.dat";
+        private long nextPersonId = 0;
+        private Map<String, Person> repo;
 
-    public FilePersonRepository() {
-        File filePerson = new File(filename);
-        if (filePerson.exists()) {
-            try (FileInputStream fi = new FileInputStream(filePerson);
-                 BufferedInputStream bi = new BufferedInputStream(fi);
-                 ObjectInputStream oi = new ObjectInputStream(bi)) {
-                nextPersonId = oi.readLong();
-                repo = (Map<String, Person>) oi.readObject();
-            } catch (Exception e) {
-                e.printStackTrace();
+        public FilePersonRepository() {
+            File filePerson = new File(filename);
+            if (filePerson.exists()) {
+                try (FileInputStream fi = new FileInputStream(filePerson);
+                     BufferedInputStream bi = new BufferedInputStream(fi);
+                     ObjectInputStream oi = new ObjectInputStream(bi)) {
+                    nextPersonId = oi.readLong();
+                    repo = (Map<String, Person>) oi.readObject();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    nextPersonId = 1;
+                    repo = new TreeMap<>();
+                }
+            } else {
                 nextPersonId = 1;
                 repo = new TreeMap<>();
             }
-        } else {
-            nextPersonId = 1;
-            repo = new TreeMap<>();
-            writeFile();
         }
-    }
-
-    private void writeFile() {
-        try(FileOutputStream fo = new FileOutputStream(filename);
-            BufferedOutputStream bo = new BufferedOutputStream(fo);
-            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
-            oo.writeLong(nextPersonId);
-            oo.writeObject(repo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
         @Override
         public Person createPerson(String name, String email, String password) {
@@ -57,7 +45,7 @@ public class FilePersonRepository implements PersonRepository {
                 return null;
             String personId = "PersonId: " + nextPersonId++;
             if (repo.containsKey(personId)) return null;
-            Person person = new Person(personId, name, email, password);
+            Person person = new Person(personId, name, email, password, 20000);
             repo.put(personId, person);
             return person;
         }
@@ -69,7 +57,7 @@ public class FilePersonRepository implements PersonRepository {
         }
 
     @Override
-    public Person loginPerson(String email, String password) {
+    public Person loginPerson(String email, String password){
         if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
         for (Person person : repo.values()) {
             if (person.getEmail().equals(email) && person.getPassword().equals(password)) {
@@ -80,11 +68,11 @@ public class FilePersonRepository implements PersonRepository {
     }
 
     @Override
-    public boolean updatePerson(Person person) {
-        if (person == null) return false;
-        repo.replace(person.getPersonId(), person);
-        return true;
-    }
+        public boolean updatePerson(Person person) {
+            if (person == null) return false;
+            repo.replace(person.getPersonId(), person);
+            return true;
+        }
 
         @Override
         public boolean deletePerson(Person person) {
