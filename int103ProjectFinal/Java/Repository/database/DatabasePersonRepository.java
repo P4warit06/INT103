@@ -91,9 +91,8 @@ public class DatabasePersonRepository implements PersonRepository {
         }
         return null;
     }
-
     @Override
-    public boolean updatePerson(Person person,String id) {
+    public boolean updatePerson(Person person) {
         if (person == null) return false;
         Connection con = DatabaseConnection.connect();
         String sql = "UPDATE person SET name = ?, email = ?, password = ? ";
@@ -102,11 +101,7 @@ public class DatabasePersonRepository implements PersonRepository {
             preparedStatement.setString(1,person.getName());
             preparedStatement.setString(2,person.getEmail());
             preparedStatement.setString(3,person.getPassword());
-<<<<<<< Updated upstream
-            preparedStatement.setString(4,id);
-=======
-//            preparedStatement.setString(4, person.getPersonId());
->>>>>>> Stashed changes
+            preparedStatement.setString(4, person.getPersonId());
             preparedStatement.executeUpdate();
             repo.replace(person.getPersonId(), person);
             return true;
@@ -118,13 +113,13 @@ public class DatabasePersonRepository implements PersonRepository {
     }
 
     @Override
-    public boolean deletePerson(Person person,String id) {
+    public boolean deletePerson(Person person) {
         if (person  == null) return false;
         Connection con = DatabaseConnection.connect();
         String sql = "DELETE FROM person WHERE personID = ?";
         try {
             PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1,id);
+            preparedStatement.setString(1,person.getPersonId());
             preparedStatement.executeUpdate();
             return repo.remove(person.getPersonId() , person) ;
         } catch (SQLException ex) {
