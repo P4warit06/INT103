@@ -36,9 +36,20 @@ public class FilePersonRepository implements PersonRepository {
             } else {
                 nextPersonId = 1;
                 repo = new TreeMap<>();
+                writeFile();
             }
         }
 
+    private void writeFile() {
+        try(FileOutputStream fo = new FileOutputStream(filename);
+            BufferedOutputStream bo = new BufferedOutputStream(fo);
+            ObjectOutputStream oo = new ObjectOutputStream(bo)) {
+            oo.writeLong(nextPersonId);
+            oo.writeObject(repo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
         @Override
         public Person createPerson(String name, String email, String password) {
             if (name == null || name.isBlank() || email == null || email.isBlank() || password == null || password.isBlank())

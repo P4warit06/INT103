@@ -60,7 +60,7 @@ public class InMemoryReservationRepository implements ReservationRepository {
     @Override
     public boolean updateReservation(Reservation reservation) {
         if (reservation == null) return false;
-        repo.replace(reservation.getReservationID(),reservation); // status , id
+        repo.replace(reservation.getReservationID(),reservation);
         return true;
     }
 
