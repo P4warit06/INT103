@@ -34,7 +34,6 @@ public class ChooseDataKeeper {
                 continue;
             }
             Scanner ans = new Scanner(line);
-//            ans.useDelimiter("\\n");
             if (ans.hasNext("1|2|3|4")) {
                 int i = ans.nextInt();
                 switch (i) {

@@ -34,7 +34,6 @@ public class RoomBookingUIFromMemory {
                 continue;
             }
             Scanner ans = new Scanner(line);
-//            ans.useDelimiter("\\n");
             if (ans.hasNext("1|2|3")) {
                 int i = ans.nextInt();
                 switch (i) {
@@ -58,7 +57,7 @@ public class RoomBookingUIFromMemory {
                 Do you want to Login?
                 1. Login!
                 2. No, back to start menu.
-                your choice is [1-2]:""";
+                your choice is [1-2]: """;
         System.out.print(loginMenu);
         while (sc.hasNextInt()) {
             String line = sc.nextLine();
@@ -67,19 +66,31 @@ public class RoomBookingUIFromMemory {
                 continue;
             }
             Scanner ans = new Scanner(line);
-//            ans.useDelimiter("\\n");
             if (ans.hasNext("1|2|3")) {
                 int i = ans.nextInt();
+
                 switch (i) {
                     case 1 -> {
                         System.out.print("Enter your email:");
                         String email = sc.nextLine();
-                        System.out.print("Enter your password:");
-                        String password = sc.nextLine();
+                        System.out.println("Enter your password:");
+                        Console c = System.console();
+                        String password;
+                        if(c!= null) {
+                            System.out.println("You have a real console.");
+                            System.out.println("So, your password will not appear while typing.");
+                            System.out.println("Please type your password:");
+                            password = new String(c.readPassword());
+                        }else {
+                            System.out.println("You do not have a real console.");
+                            System.out.println("So, your password will appear while typing.");
+                            System.out.println("Please type your password:");
+                            password = sc.nextLine();
+                        }
                         customerPerson = keepFromMemoryService.getLoginPerson(email, password);
                         if (customerPerson == null) {
                             System.out.println("Login Failed");
-                            start();
+                            uiLogin();
                         } else {
                             System.out.println("Login Successfully");
                             System.out.println("Hello " + customerPerson.getName() + "!");
@@ -98,7 +109,7 @@ public class RoomBookingUIFromMemory {
     private void uiRegisterPerson() {
         Scanner sc = new Scanner(System.in);
         Console c = System.console();
-        System.out.println("Registration");
+        System.out.print("Registration");
         System.out.print("Enter your name:");
         String name = sc.nextLine();
 
@@ -110,15 +121,15 @@ public class RoomBookingUIFromMemory {
         if (c != null) {
             System.out.println("You have a real console.");
             System.out.println("So, your password will not appear while typing.");
-            System.out.print("Please type your password:");
+            System.out.println("Please type your password:");
             password = new String(c.readPassword());
         } else {
             System.out.println("You do not have a real console.");
             System.out.println("So, your password will appear while typing.");
-            System.out.print("Please type your password:");
+            System.out.println("Please type your password:");
             password = sc.nextLine();
         }
-        System.out.print("Do you want to see what you have just typed in [y/n]: ");
+        System.out.println("Do you want to see what you have just typed in [y/n]: ");
         if (sc.nextLine().equals("y")) {
             System.out.printf("You type: [%s]%n", password);
         }
@@ -138,7 +149,8 @@ public class RoomBookingUIFromMemory {
                 4. Cancel a reservation
                 5. Get my balance
                 6. Exit
-                Your choice is [1-6]:""";
+                Your choice is [1-6]:
+                """;
         System.out.print(viewMenu);
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -206,7 +218,8 @@ public class RoomBookingUIFromMemory {
         String makeReservation = """
                 1. Make a new reservation
                 2. Back to menu
-                Your choice is [1-2]:""";
+                Your choice is [1-2]:
+                """;
         System.out.print(makeReservation);
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -220,7 +233,7 @@ public class RoomBookingUIFromMemory {
                 int i = ans.nextInt();
                 switch (i) {
                     case 1:
-                        System.out.print("Enter room number you want to reserve:");
+                        System.out.println("Enter room number you want to reserve:");
                         String roomNumber = sc.nextLine();
                         if (checkLogin()) {
                             start();
@@ -297,7 +310,8 @@ public class RoomBookingUIFromMemory {
         String cancelReservation = """
                 1. Cancel a reservation!
                 2. Back to menu
-                Your choice is [1-2]:""";
+                Your choice is [1-2]:
+                """;
         System.out.print(cancelReservation);
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -312,7 +326,7 @@ public class RoomBookingUIFromMemory {
                 switch (i) {
                     case 1:
                         //Cancel a reservation
-                        System.out.print("Enter reservation ID you want to cancel: ");
+                        System.out.println("Enter reservation ID you want to cancel: ");
                         String reservationID = sc.nextLine();
                         Reservation reservation = keepFromMemoryService.getReservationById(reservationID);
                         if(reservation == null){

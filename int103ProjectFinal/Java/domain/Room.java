@@ -11,9 +11,12 @@ public class Room implements Comparable<Room>, Serializable {
     private String amenities;
     private boolean available;
     private double price;
-    public Room(String roomNumber, String type, String capacity, String amenities, double price) {
-        if (roomNumber == null || roomNumber.isBlank() || type == null || type.isBlank() || capacity == null
-                || capacity.isBlank() || amenities == null || amenities.isBlank() || price < 0.0)  throw new InvalidRoomFormatException();
+    public Room(String roomNumber, String type, String capacity, String amenities,
+                double price) {
+        if (roomNumber == null || roomNumber.isBlank() || type == null || type.isBlank()
+                || capacity == null || capacity.isBlank()
+                || amenities == null || amenities.isBlank() || price < 0.0)
+            throw new InvalidRoomFormatException();
         this.roomNumber = roomNumber;
         this.type = type;
         this.capacity = capacity;

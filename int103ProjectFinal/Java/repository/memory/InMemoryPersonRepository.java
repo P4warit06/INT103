@@ -30,7 +30,7 @@ public class InMemoryPersonRepository  implements PersonRepository {
     }
 
     @Override
-    public Person loginPerson(String email, String password){
+    public Person loginPerson(String email, String password){ //เอาไว้ดูว่า คนที่ล็อคอินเข้ามาคือใคร อีเมลนั้นตรงกับ person คนไหน พาสเวิร์ดตรงกันไหม แล้ว return คนนั้นออกไป
         if (email == null || password == null || email.isBlank() || password.isBlank()) return null;
         for (Person person : repo.values()) {
             if (person.getEmail().equals(email) && person.getPassword().equals(password)) {
@@ -41,20 +41,20 @@ public class InMemoryPersonRepository  implements PersonRepository {
     }
 
     @Override
-    public boolean updatePerson(Person person) {
+    public boolean updatePerson(Person person) { // ใช้ updatePerson เมื่อทำรายการต่างๆๆ เช่น ยกเลิกการจอง อัพเดทตัวperson อะไรงี้
         if (person == null) return false;
         repo.replace(person.getPersonId(), person);
         return true;
     }
 
     @Override
-    public boolean deletePerson(Person person) {
+    public boolean deletePerson(Person person) { //ยังไม่ได้เอาไปใช้
         if (person  == null) return false;
         return repo.remove(person.getPersonId() , person) ;
     }
 
     @Override
-    public Stream<Person> stream() {
+    public Stream<Person> stream() { //ยังไม่ได้เอาไปใช้
         return repo.values().stream();
     }
 }

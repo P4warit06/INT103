@@ -2,7 +2,6 @@ package repository.file;
 
 import repository.PaymentRepository;
 import domain.Payment;
-import domain.Person;
 import domain.Reservation;
 
 import java.io.*;

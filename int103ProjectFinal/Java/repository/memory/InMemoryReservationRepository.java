@@ -37,8 +37,6 @@ public class InMemoryReservationRepository implements ReservationRepository {
             System.out.println("Your balance less than room price");
             return null;
         }
-//        person.setBalance(person.getBalance() - room.getPrice());
-//        room.setAvailable(false);
         Reservation reservation = new Reservation(number, person, room);
         repo.put(number,reservation);
         ++nextReservationId;

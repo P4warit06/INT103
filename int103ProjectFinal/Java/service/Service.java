@@ -76,7 +76,7 @@ public class Service {
     }
 
 
-    public Person getLoginPerson(String email,String password) {
+    public Person getLoginPerson(String email,String password) { //ดึงข้อมูล person ที่ตรงกับ email กับ password
         return personRepo.loginPerson(email,password);
     }
 

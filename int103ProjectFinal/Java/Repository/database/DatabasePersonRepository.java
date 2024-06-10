@@ -1,7 +1,6 @@
 package repository.database;
 
 import domain.Person;
-import org.w3c.dom.ls.LSOutput;
 import repository.PersonRepository;
 import java.sql.*;
 import java.util.Map;
@@ -18,8 +17,8 @@ public class DatabasePersonRepository implements PersonRepository {
     }
     @Override
     public Person createPerson(String name, String email, String password)  {
-        if (name == null || email == null || password == null||name.isBlank() || email.isBlank() || password.isBlank()) return null;
-
+        if (name == null || email == null || password == null||name.isBlank() || email.isBlank() || password.isBlank())
+            return null;
         Connection con = DatabaseConnection.connect();
         String sql = "insert into person(name,email,password,balance) values(?,?,?,?)";
         String personalId = null;

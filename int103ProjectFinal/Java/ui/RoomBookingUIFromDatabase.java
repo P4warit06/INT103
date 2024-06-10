@@ -33,7 +33,6 @@ public class RoomBookingUIFromDatabase {
                 continue;
             }
             Scanner ans = new Scanner(line);
-//            ans.useDelimiter("\\n");
             if (ans.hasNext("1|2|3")) {
                 int i = ans.nextInt();
                 switch (i) {
@@ -53,7 +52,6 @@ public class RoomBookingUIFromDatabase {
 
     private void uiLogin() {
         Scanner sc = new Scanner(System.in);
-        Console c = System.console();
 
         String LoginMenu = """
                 Do you want to Login?
@@ -76,11 +74,23 @@ public class RoomBookingUIFromDatabase {
                         System.out.println("Enter your email: ");
                         String email = sc.nextLine();
                         System.out.println("Enter your password: ");
-                        String password = sc.nextLine();
+                        Console c = System.console();
+                        String password;
+                        if(c!= null) {
+                            System.out.println("You have a real console.");
+                            System.out.println("So, your password will not appear while typing.");
+                            System.out.println("Please type your password:");
+                            password = new String(c.readPassword());
+                        }else {
+                            System.out.println("You do not have a real console.");
+                            System.out.println("So, your password will appear while typing.");
+                            System.out.println("Please type your password:");
+                            password = sc.nextLine();
+                        }
                         customerPerson = keepFromDatabaseService.getLoginPerson(email, password);
                         if (customerPerson == null) {
                             System.out.println("Login Failed");
-                            start();
+                            uiLogin();;
                         } else {
                             System.out.println("Login Successfully");
                             System.out.println("Hello " + customerPerson.getName() + "!");

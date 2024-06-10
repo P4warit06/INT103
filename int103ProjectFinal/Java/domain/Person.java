@@ -11,25 +11,22 @@ public class Person implements Comparable<Person>, Serializable {
     private double balance;
     public Person(String personId, String name, String email, String password, double balance) {
         this.balance = balance;
-        if (personId == null || personId.isBlank() || name == null || name.isBlank() || email == null || email.isBlank()
-                || password == null || password.isBlank()) throw new InvalidPersonFormatException();
+        if (personId == null || personId.isBlank() || name == null || name.isBlank() || email == null
+                || email.isBlank()|| password == null || password.isBlank())
+                throw new InvalidPersonFormatException();
         this.personId = personId;
         this.name = name;
         this.email = email;
         this.password = password;
     }
     public void rePassword(String email, String newPassword) {
-        if (email == null || email.isBlank() || !email.equals(this.email) || newPassword == null || newPassword.isBlank()) throw new InvalidPersonFormatException();
+        if (email == null || email.isBlank()
+                || !email.equals(this.email)
+                || newPassword == null
+                || newPassword.isBlank()) throw new InvalidPersonFormatException();
         this.password = newPassword;
     }
-    //    public String reservation(Room room) {
-//        if (room == null) throw new InvalidRoomFormatException();
-//        if (room.isAvailable()) {
-//            room.setAvailable(false);
-//            return "You successfully reserved.";
-//        }
-//        return "Your reservation was unsuccessful.";
-//    } This method is service.
+
     public String getPersonId() {
         return personId;
     }
@@ -50,12 +47,6 @@ public class Person implements Comparable<Person>, Serializable {
     public String getPassword() {
         return password;
     }
-    @Override
-    public String toString() {
-        return String.format("Person: (PersonId: %s, Name: %s, Email: %s, Password: %s)", personId, name, email, password);
-    }
-    @Override
-    public int compareTo(Person person) {return personId.compareTo(person.personId);}
 
     public void setBalance(double balance) {
         this.balance = balance;
@@ -64,4 +55,12 @@ public class Person implements Comparable<Person>, Serializable {
     public double getBalance() {
         return balance;
     }
+    @Override
+    public String toString() {
+        return String.format("Person: (PersonId: %s, Name: %s, Email: %s, Password: %s)"
+                , personId, name, email, password);
+    }
+    @Override
+    public int compareTo(Person person) {return personId.compareTo(person.personId);}
+
 }

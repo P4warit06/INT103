@@ -33,7 +33,6 @@ public class RoomBookingUIFromFile {
                 continue;
             }
             Scanner ans = new Scanner(line);
-//            ans.useDelimiter("\\n");
             if (ans.hasNext("1|2|3")) {
                 int i = ans.nextInt();
                 switch (i) {
@@ -73,14 +72,14 @@ public class RoomBookingUIFromFile {
                 int i = ans.nextInt();
                 switch (i) {
                     case 1 -> {
-                        System.out.println("Enter your email: ");
+                        System.out.print("Enter your email: ");
                         String email = sc.nextLine();
-                        System.out.println("Enter your password: ");
+                        System.out.print("Enter your password: ");
                         String password = sc.nextLine();
                         customerPerson = keepFromFileService.getLoginPerson(email, password);
                         if (customerPerson == null) {
                             System.out.println("Login Failed");
-                            start();
+                            uiLogin();
                         } else {
                             System.out.println("Login Successfully");
                             System.out.println("Hello " + customerPerson.getName() + "!");
